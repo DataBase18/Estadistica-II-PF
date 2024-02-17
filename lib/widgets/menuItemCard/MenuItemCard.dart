@@ -4,16 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 class MenuItemCard extends StatelessWidget {
-  const MenuItemCard({super.key,  required this.item});
+  const MenuItemCard({super.key,  required this.item, this.onTab});
 
   final MenuModel item;
+  final Function()? onTab;
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return GestureDetector(
-      onTap: item.onTab,
+      onTap: onTab,
       child: Card(
         color: item.backgroundColor,
         child: Padding(

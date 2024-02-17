@@ -1,13 +1,11 @@
 
 
-import 'package:fisicapf/models/models.dart';
 import 'package:fisicapf/mvvm/observer.dart';
-import 'package:fisicapf/screens/conversions/data/ConversionConstants.dart';
-import 'package:fisicapf/screens/conversions/ui/ConversionScreen.dart';
 import 'package:fisicapf/screens/home/data/HomeConstants.dart';
 import 'package:fisicapf/screens/home/ui/HomeEvent.dart';
 import 'package:fisicapf/screens/home/ui/HomeState.dart';
 import 'package:fisicapf/screens/home/ui/HomeViewModel.dart';
+import 'package:fisicapf/screens/screens.dart';
 import 'package:fisicapf/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +14,7 @@ class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
 
   final HomeState state = HomeState(
-    currentPage:  ConversionScreen(),
+    currentPage:  PhysicalScreen(),
     currentIndexPage: 0
   );
 

@@ -1,8 +1,9 @@
 
 
+import 'package:fisicapf/GlobalConstants.dart';
 import 'package:fisicapf/models/models.dart';
 
-class ConversionConstants{
+class PhysicalConstants{
   static String homeTitle = "Listado de operaciones";
 
   static String conversionMenuTitle = "Conversiones";
@@ -17,9 +18,10 @@ class ConversionConstants{
 
   static List<MenuModel> menus = [
     MenuModel(
-        title: ConversionConstants.conversionMenuTitle,
-        description: ConversionConstants.conversionMenuDescription,
-        imageLottiePath: ConversionConstants.conversionMenuLottiePath
+      title: conversionMenuTitle,
+      description:  conversionMenuDescription,
+      imageLottiePath:  conversionMenuLottiePath,
+      screenPath: GlobalConstants.conversionsScreen
     ),
   ];
 }

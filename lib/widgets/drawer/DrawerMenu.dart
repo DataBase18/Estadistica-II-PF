@@ -1,10 +1,8 @@
 
-import 'package:fisicapf/GlobalConstants.dart';
 import 'package:fisicapf/models/models.dart';
-import 'package:fisicapf/screens/conversions/ui/ConversionScreen.dart';
 import 'package:fisicapf/screens/home/ui/HomeState.dart';
 import 'package:fisicapf/screens/home/ui/HomeViewModel.dart';
-import 'package:fisicapf/widgets/drawer/Constants.dart';
+import 'package:fisicapf/screens/physical/home/ui/PhysicalScreen.dart';
 import 'package:flutter/material.dart';
 
 class DrawerMenu extends StatelessWidget {
@@ -33,7 +31,7 @@ class DrawerMenu extends StatelessWidget {
             title: Text(menus.elementAt(index).title),
             onTap: (){
               viewModel.changeCurrentPage(
-                newPage: menus.elementAt(index).screenContent ?? ConversionScreen(),
+                newPage: menus.elementAt(index).screenContent ?? PhysicalScreen(),
                 newIndexPage: index
               );
               Scaffold.of(context).closeDrawer();

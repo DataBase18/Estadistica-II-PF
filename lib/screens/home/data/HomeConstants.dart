@@ -12,7 +12,7 @@ class HomeConstants {
     MenuModel(
         title: HomeConstants.physicsMenuItem,
         icon: Icons.accessibility_new_outlined,
-        screenContent: ConversionScreen(),
+        screenContent: PhysicalScreen(),
         description: ""
     ),
     MenuModel(

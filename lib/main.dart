@@ -1,4 +1,5 @@
 import 'package:fisicapf/GlobalConstants.dart';
+import 'package:fisicapf/screens/physical/conversion/ui/ConversionScreen.dart';
 import 'package:fisicapf/screens/screens.dart';
 import 'package:fisicapf/themes/themes.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
         colorScheme: lightMainColorScheme,
       ),
       routes: {
-        GlobalConstants.homeScreenPath: (_) => HomeScreen()
+        GlobalConstants.homeScreenPath: (_) => HomeScreen(),
+        GlobalConstants.conversionsScreen: (_) => ConversionScreen()
       },
       initialRoute: GlobalConstants.homeScreenPath,
     );
