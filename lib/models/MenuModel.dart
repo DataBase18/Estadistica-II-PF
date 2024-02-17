@@ -6,7 +6,7 @@ class MenuModel {
   String description;
   String? imageSvgPath;
   Function()? onTab;
-  String? screenPath;
+  Widget? screenContent;
   String? imageLottiePath;
   Color? backgroundColor;
   IconData? icon;
@@ -16,7 +16,7 @@ class MenuModel {
     required this.description,
     this.imageSvgPath,
     this.onTab,
-    this.screenPath,
+    this.screenContent,
     this.imageLottiePath,
     this.backgroundColor,
     this.icon

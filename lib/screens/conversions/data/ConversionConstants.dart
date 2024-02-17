@@ -1,5 +1,7 @@
 
 
+import 'package:fisicapf/models/models.dart';
+
 class ConversionConstants{
   static String homeTitle = "Listado de operaciones";
 
@@ -13,6 +15,12 @@ class ConversionConstants{
   static String forceAndEnergyMenuDescription ="El motor que impulsa el movimiento y la interacción entre objetos, fundamental para comprender nuestro entorno";
 
 
-
+  static List<MenuModel> menus = [
+    MenuModel(
+        title: ConversionConstants.conversionMenuTitle,
+        description: ConversionConstants.conversionMenuDescription,
+        imageLottiePath: ConversionConstants.conversionMenuLottiePath
+    ),
+  ];
 }
 

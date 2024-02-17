@@ -1,36 +1,19 @@
 
 import 'package:fisicapf/GlobalConstants.dart';
 import 'package:fisicapf/models/models.dart';
+import 'package:fisicapf/screens/conversions/ui/ConversionScreen.dart';
+import 'package:fisicapf/screens/home/ui/HomeState.dart';
+import 'package:fisicapf/screens/home/ui/HomeViewModel.dart';
 import 'package:fisicapf/widgets/drawer/Constants.dart';
 import 'package:flutter/material.dart';
 
 class DrawerMenu extends StatelessWidget {
-  DrawerMenu({super.key});
+  DrawerMenu({super.key, required this.viewModel, required this.state, required this.menus});
 
-  List<MenuModel> menus = [
-    MenuModel(
-      title: DrawerMenuConstants.physicsMenuItem,
-      icon: Icons.accessibility_new_outlined,
-      screenPath: GlobalConstants.homeScreenPath,
-      description: ""
-    ),
-    MenuModel(
-        title: DrawerMenuConstants.statisticsMenuItem,
-        icon: Icons.add_chart_rounded,
-        description: ""
-    ),
+  final HomeViewModel viewModel;
+  final HomeState state;
+  final List<MenuModel> menus;
 
-    MenuModel(
-        title: DrawerMenuConstants.statisticsMenuItem,
-        icon: Icons.add_chart_rounded,
-        description: ""
-    ),
-    MenuModel(
-        title: DrawerMenuConstants.statisticsMenuItem,
-        icon: Icons.add_chart_rounded,
-        description: ""
-    )
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -44,10 +27,16 @@ class DrawerMenu extends StatelessWidget {
         itemBuilder: (context, index){
           return ListTile(
             leading: Icon(menus.elementAt(index).icon),
+            selected: index == state.currentIndexPage,
+            selectedColor: Theme.of(context).colorScheme.primary,
             trailing: const Icon(Icons.navigate_next),
             title: Text(menus.elementAt(index).title),
             onTap: (){
-              Navigator.pushReplacementNamed(context, menus.elementAt(index).screenPath ?? GlobalConstants.homeScreenPath);
+              viewModel.changeCurrentPage(
+                newPage: menus.elementAt(index).screenContent ?? ConversionScreen(),
+                newIndexPage: index
+              );
+              Scaffold.of(context).closeDrawer();
             },
           );
         },
