@@ -1,15 +1,39 @@
 
+import 'package:fisicapf/mvvm/observer.dart';
 import 'package:fisicapf/screens/statistics/aleatorySample/data/AleatorySampleConstants.dart';
+import 'package:fisicapf/screens/statistics/aleatorySample/ui/AleatorySampleEvent.dart';
+import 'package:fisicapf/screens/statistics/aleatorySample/ui/AleatorySampleState.dart';
+import 'package:fisicapf/screens/statistics/aleatorySample/ui/AleatorySampleViewModel.dart';
+import 'package:fisicapf/screens/statistics/aleatorySample/ui/AleatorySampleWidgets.dart';
+import 'package:fisicapf/widgets/BasicAlertDialog.dart';
 import 'package:flutter/material.dart';
 
 class AleatorySampleScreen extends StatefulWidget {
-  const AleatorySampleScreen({super.key});
+
+  AleatorySampleScreen({super.key});
+
+  final AleatorySampleState state = AleatorySampleState();
 
   @override
   State<AleatorySampleScreen> createState() => _AleatorySampleScreenState();
 }
 
-class _AleatorySampleScreenState extends State<AleatorySampleScreen> {
+class _AleatorySampleScreenState extends State<AleatorySampleScreen> implements EventObserver {
+
+  final AleatorySampleViewModel aleatorySampleViewModel = AleatorySampleViewModel();
+
+  @override
+  void initState(){
+    super.initState();
+    aleatorySampleViewModel.subscribe(this);
+  }
+
+  @override
+  void dispose(){
+    aleatorySampleViewModel.unsubscribe(this);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -41,14 +65,30 @@ class _AleatorySampleScreenState extends State<AleatorySampleScreen> {
             ),
             title: Center(child: Text(AleatorySampleConstants.title)),
           ),
-          body: const TabBarView(
+          body:  TabBarView(
             children: [
-              Text("Screen 1"),
-              Text("Screen 2"),
+              ByIntervalTab(
+                viewModel: aleatorySampleViewModel,
+                state: widget.state,
+              ),
+              Text(""),
             ],
           )
         ),
       ),
     );
+  }
+
+  @override
+  void notify(ViewEvent event) {
+    if(event is SetInterval){
+      setState(() {
+        widget.state.intervalPopulation = List.generate(event.b-event.a, (index) => event.a+index);
+      });
+    }else if(event is ShowSimpleDialog){
+      showDialog(context: context, builder: (context){
+        return BasicAlertDialog(content: event.message);
+      });
+    }
   }
 }
