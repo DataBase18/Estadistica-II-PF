@@ -22,7 +22,8 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         GlobalConstants.homeScreenPath: (_) => HomeScreen(),
-        GlobalConstants.conversionsScreen: (_) => ConversionScreen()
+        GlobalConstants.conversionsScreen: (_) => ConversionScreen(),
+        GlobalConstants.aleatorySampleScreen: (_) => AleatorySampleScreen()
       },
       initialRoute: GlobalConstants.homeScreenPath,
     );
