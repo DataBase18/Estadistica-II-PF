@@ -11,3 +11,8 @@ class ShowSimpleDialog extends ViewEvent {
   String message;
   ShowSimpleDialog(this.message):super("ShowSimpleDialog");
 }
+
+class AddValueManuallyToList extends ViewEvent {
+  String value;
+  AddValueManuallyToList(this.value):super("AddValueManuallyToList");
+}

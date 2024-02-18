@@ -13,4 +13,7 @@ class AleatorySampleConstants {
   static String firstValueLongError = "El primer parametro debe ser menor al segundo";
   static String selectedText = "Elegido para muestra";
   static String notSelectedText ="No elegido";
+  static String inputValue  = "Ingrese un dato";
+
+  static String dataInput ="Dato ingresado";
 }

@@ -71,7 +71,10 @@ class _AleatorySampleScreenState extends State<AleatorySampleScreen> implements 
                 viewModel: aleatorySampleViewModel,
                 state: widget.state,
               ),
-              Text(""),
+              ByManuallyInput(
+                viewModel: aleatorySampleViewModel,
+                state: widget.state,
+              ),
             ],
           )
         ),
@@ -88,6 +91,11 @@ class _AleatorySampleScreenState extends State<AleatorySampleScreen> implements 
     }else if(event is ShowSimpleDialog){
       showDialog(context: context, builder: (context){
         return BasicAlertDialog(content: event.message);
+      });
+    }else if(event is AddValueManuallyToList){
+      setState(() {
+        widget.state.valuesManuallyList ??= [];
+        widget.state.valuesManuallyList!.add(event.value);
       });
     }
   }

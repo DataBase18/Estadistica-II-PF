@@ -1,6 +1,7 @@
 
 import 'dart:math';
 
+import 'package:fisicapf/GlobalConstants.dart';
 import 'package:fisicapf/mvvm/viewModel.dart';
 import 'package:fisicapf/screens/statistics/aleatorySample/data/AleatorySampleConstants.dart';
 import 'package:fisicapf/screens/statistics/aleatorySample/ui/AleatorySampleEvent.dart';
@@ -24,6 +25,14 @@ class AleatorySampleViewModel extends EventViewModel{
       notify(SetInterval(aValue, bValue));
     }
     
+  }
+  
+  void addValue (String? value){
+    if(value==null || value.isEmpty){
+      notify(ShowSimpleDialog(GlobalConstants.invalidValueError));
+    }else{
+      notify(AddValueManuallyToList(value));
+    }
   }
 
   String getAleatorySelection () {

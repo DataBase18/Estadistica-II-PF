@@ -7,18 +7,31 @@ import 'package:fisicapf/screens/statistics/aleatorySample/ui/AleatorySampleView
 import 'package:fisicapf/widgets/inputBasic/InputBasic.dart';
 import 'package:flutter/material.dart';
 
-class ByIntervalTab extends StatelessWidget {
+class ByIntervalTab extends StatefulWidget {
 
   ByIntervalTab({super.key, required this.viewModel, required this.state});
 
   final AleatorySampleViewModel viewModel;
   final AleatorySampleState state;
 
+  @override
+  State<ByIntervalTab> createState() => _ByIntervalTabState();
+}
+class _ByIntervalTabState extends State<ByIntervalTab> {
+
   TextEditingController controllerFrom = TextEditingController();
   TextEditingController controllerTo = TextEditingController();
 
   @override
+  void initState(){
+    super.initState();
+    controllerFrom.text=widget.state.aInterval.toString();
+    controllerTo.text=widget.state.bInterval.toString();
+  }
+
+  @override
   Widget build(BuildContext context) {
+
 
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -48,17 +61,17 @@ class ByIntervalTab extends StatelessWidget {
             ],
           ),
           SizedBox(height: height*0.02 ,),
-          state.loading?
+          widget.state.loading?
               const CircularProgressIndicator():
           FilledButton(
             onPressed: (){
-              viewModel.setInterval(controllerFrom, controllerTo);
+              widget.viewModel.setInterval(controllerFrom, controllerTo);
             },
             child: Text(GlobalConstants.processTextButton),
           ),
           SizedBox(height: height*0.02 ,),
 
-          state.intervalPopulation == null ? Container():
+          widget.state.intervalPopulation == null ? Container():
           Expanded(
             child: SingleChildScrollView(
               child: DataTable(
@@ -66,11 +79,11 @@ class ByIntervalTab extends StatelessWidget {
                   DataColumn(label: Text(AleatorySampleConstants.sequenceColumnName)),
                   DataColumn(label: Text(AleatorySampleConstants.selectThisRowColumnName))
                 ],
-                rows: state.intervalPopulation!.map((value) {
+                rows: widget.state.intervalPopulation!.map((value) {
                   return DataRow(
                     cells: [
                       DataCell(Text(value.toString())),
-                      DataCell(Text(viewModel.getAleatorySelection()))
+                      DataCell(Text(widget.viewModel.getAleatorySelection()))
                     ]
                   );
                 }).toList(),
@@ -82,3 +95,61 @@ class ByIntervalTab extends StatelessWidget {
     );
   }
 }
+
+class ByManuallyInput extends StatelessWidget {
+  ByManuallyInput({super.key, required this.viewModel, required this.state});
+
+  final AleatorySampleViewModel viewModel;
+  final AleatorySampleState state;
+
+  TextEditingController controllerValue = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: width*0.025, vertical: height*0.03),
+      child: Column(
+        children: [
+          InputBasic(
+            label: AleatorySampleConstants.inputValue,
+            validator: GlobalMetods.validatorEmpty,
+            inputController: controllerValue,
+          ),
+          SizedBox(height: height*0.01,),
+          FilledButton(
+            onPressed: (){
+              viewModel.addValue(controllerValue.text);
+            },
+            child: Text(GlobalConstants.addValueTextButton),
+          ),
+
+          SizedBox(height: height*0.02,),
+          state.valuesManuallyList ==null ? Container():
+          Expanded(
+            child: SingleChildScrollView(
+              child: DataTable(
+                columns: [
+                  DataColumn(label: Text(AleatorySampleConstants.dataInput)),
+                  DataColumn(label: Text(AleatorySampleConstants.selectThisRowColumnName))
+                ],
+                rows: state.valuesManuallyList!.map((value) {
+                  return DataRow(
+                      cells: [
+                        DataCell(Text(value)),
+                        DataCell(Text(viewModel.getAleatorySelection()))
+                      ]
+                  );
+                }).toList(),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+

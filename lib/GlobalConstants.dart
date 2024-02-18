@@ -6,4 +6,6 @@ class GlobalConstants {
 
   static String inputValidatorNumberError = "Ingrese un número";
   static String processTextButton  = "Procesar";
+  static String addValueTextButton = "Agregar";
+  static String invalidValueError ="Debes de ingresar un dato";
 }

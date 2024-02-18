@@ -10,4 +10,10 @@ class GlobalMetods {
     return null;
   }
 
+  static String? validatorEmpty (String? value){
+    if(value == null || value.isEmpty){
+      return GlobalConstants.invalidValueError;
+    }
+    return null;
+  }
 }
