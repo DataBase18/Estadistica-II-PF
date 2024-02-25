@@ -39,6 +39,11 @@ class _StatisticsScreenState extends State<StatisticsScreen>  implements EventOb
       description: StatisticsConstants.aleatorySampleDescription,
       screenPath: GlobalConstants.aleatorySampleScreen
     ),
+    MenuModel(
+        title: StatisticsConstants.sizeSampleCalcTitle,
+        description: StatisticsConstants.sizeSampleCalcDescription,
+        screenPath: GlobalConstants.sizeSampleCalcScreen
+    ),
   ];
 
   @override

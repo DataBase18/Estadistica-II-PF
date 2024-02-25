@@ -20,7 +20,7 @@ class InputBasic extends StatelessWidget {
         this.autoFocus,
         this.onSubmit,
         this.controllerSelector,
-        this.internPadding, this.fontSize, this.keyboard, this.onTabLeftIcon, this.onTabRigthIcon, this.readOnly = false, this.onTab});
+        this.internPadding, this.fontSize, this.keyboard, this.onTabLeftIcon, this.onTabRigthIcon, this.readOnly = false, this.onTab, this.maxLength});
 
   final String? label;
   final Widget? leftIcon;
@@ -45,12 +45,14 @@ class InputBasic extends StatelessWidget {
   final bool readOnly;
   final Function()? onTab;
   FocusNode? focusController;
+  final int? maxLength;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       readOnly: readOnly ,
       keyboardType: keyboard,
+      maxLength: maxLength,
       style: TextStyle(
           fontSize: fontSize
       ),

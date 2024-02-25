@@ -10,27 +10,17 @@ class HomeConstants {
 
   static List<MenuModel> drawerMenus = [
     MenuModel(
-        title: HomeConstants.physicsMenuItem,
-        icon: Icons.accessibility_new_outlined,
-        screenContent: PhysicalScreen(),
-        description: ""
-    ),
-    MenuModel(
         title: HomeConstants.statisticsMenuItem,
         icon: Icons.add_chart_rounded,
         screenContent: StatisticsScreen(),
         description: ""
     ),
-
     MenuModel(
-        title: HomeConstants.statisticsMenuItem,
-        icon: Icons.add_chart_rounded,
+        title: HomeConstants.physicsMenuItem,
+        icon: Icons.accessibility_new_outlined,
+        screenContent: PhysicalScreen(),
         description: ""
     ),
-    MenuModel(
-        title: HomeConstants.statisticsMenuItem,
-        icon: Icons.add_chart_rounded,
-        description: ""
-    )
+
   ];
 }
