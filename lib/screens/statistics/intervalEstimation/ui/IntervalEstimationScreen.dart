@@ -7,6 +7,7 @@ import 'package:fisicapf/screens/statistics/intervalEstimation/data/IntervalEsti
 import 'package:fisicapf/screens/statistics/intervalEstimation/ui/IntervalEstimationEvent.dart';
 import 'package:fisicapf/screens/statistics/intervalEstimation/ui/IntervalEstimationState.dart';
 import 'package:fisicapf/screens/statistics/intervalEstimation/ui/IntervalEstimationViewModel.dart';
+import 'package:fisicapf/widgets/BasicAlertDialog.dart';
 import 'package:fisicapf/widgets/TitleText.dart';
 import 'package:fisicapf/widgets/inputBasic/InputBasic.dart';
 import 'package:flutter/material.dart';
@@ -70,22 +71,43 @@ class _IntervalEstimationScreenState extends State<IntervalEstimationScreen> imp
                         SizedBox(
                           width: width*0.1,
                           child: Text(
-                            state.typeCalcSample ?
-                              IntervalEstimationConstants.sampleLabel:
                                 IntervalEstimationConstants.populationLabel
                           )
                         ),
                         SizedBox(width: width*0.02,),
                         Expanded(
                           child: InputBasic(
-                            label: state.typeCalcSample ?
-                            IntervalEstimationConstants.sizeSampleInputLabel:
-                            IntervalEstimationConstants.sizePopulationInputLabel,
+                            label: IntervalEstimationConstants.sizePopulationInputLabel,
                             rigthIcon: const Icon(Icons.people_alt),
-                            inputController: state.samplePopulationController,
+                            inputController: state.populationController,
                             validator: (value){
                               if(double.tryParse(value??"") ==null){
-                                return IntervalEstimationConstants.invalidPercentICErrorMessage;
+                                return IntervalEstimationConstants.invalidValueMessage;
+                              }
+                              return null;
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: height*0.01,),
+                    Row(
+                      children: [
+                        SizedBox(
+                            width: width*0.1,
+                            child: Text(
+                                IntervalEstimationConstants.sampleLabel
+                            )
+                        ),
+                        SizedBox(width: width*0.02,),
+                        Expanded(
+                          child: InputBasic(
+                            label: IntervalEstimationConstants.sizeSampleInputLabel,
+                            rigthIcon: const Icon(Icons.people_alt),
+                            inputController: state.sampleController,
+                            validator: (value){
+                              if(double.tryParse(value??"") ==null){
+                                return IntervalEstimationConstants.invalidValueMessage;
                               }
                               return null;
                             },
@@ -112,7 +134,7 @@ class _IntervalEstimationScreenState extends State<IntervalEstimationScreen> imp
                             rigthIcon: const Icon(Icons.close),
                             validator: (value){
                               if(double.tryParse(value??"") ==null){
-                                return IntervalEstimationConstants.invalidPercentICErrorMessage;
+                                return IntervalEstimationConstants.invalidValueMessage;
                               }
                               return null;
                             },
@@ -141,7 +163,7 @@ class _IntervalEstimationScreenState extends State<IntervalEstimationScreen> imp
                             rigthIcon: const Icon(Icons.device_hub),
                             validator: (value){
                               if(double.tryParse(value??"") ==null){
-                                return IntervalEstimationConstants.invalidPercentICErrorMessage;
+                                return IntervalEstimationConstants.invalidValueMessage;
                               }
                               return null;
                             },
@@ -164,7 +186,7 @@ class _IntervalEstimationScreenState extends State<IntervalEstimationScreen> imp
                             inputController: state.iCController,
                             validator: (value){
                               if(double.tryParse(value??"") ==null){
-                                return IntervalEstimationConstants.invalidPercentICErrorMessage;
+                                return IntervalEstimationConstants.invalidValueMessage;
                               }
                               return null;
                             },
@@ -176,10 +198,61 @@ class _IntervalEstimationScreenState extends State<IntervalEstimationScreen> imp
                     SizedBox(height: height*0.04,),
                     FilledButton(
                       onPressed: (){
-
+                        viewModel.calculate(
+                          isSampleCalcType: state.typeCalcSample,
+                          nController: state.sampleController,
+                          populationController: state.populationController,
+                          icController: state.iCController,
+                          sOrSigmaController: state.deviationSigmaController,
+                          xController: state.meanController,
+                        );
                       },
                       child: Text(IntervalEstimationConstants.calcTextButton),
-                    )
+                    ),
+                    SizedBox(height: height*0.035,),
+                    state.currentResponse.isNotEmpty?
+                    SizedBox(
+                      width: width,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            IntervalEstimationConstants.resultTitle,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              color: Colors.green
+                            ),
+                          ),
+                          SizedBox(height: height*0.02,),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              state.currentResponse,
+                              style: const TextStyle(
+                                  fontSize: 18
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: height*0.02,),
+                          state.currentResponseInfo.isNotEmpty?
+                          Text(
+                            IntervalEstimationConstants.explicationInfo,
+                            style: const TextStyle(
+                                fontSize: 15,
+                                color: Colors.green
+                            ),
+                          ):Container(),
+                          SizedBox(height: height*0.02,),
+                          state.currentResponseInfo.isNotEmpty?
+                          Text(
+                            state.currentResponseInfo,
+                            style: const TextStyle(
+                                fontSize: 18
+                            ),
+                          ):Container(),
+                        ],
+                      ),
+                    ):Container()
                   ],
                 ),
               )
@@ -196,12 +269,29 @@ class _IntervalEstimationScreenState extends State<IntervalEstimationScreen> imp
       case ChangeTypeCalcSample:
         _handleChangeTypeCalcSample(event as ChangeTypeCalcSample);
         break;
+      case ShowSimpleAlert:
+        _handleShowSimpleAlert(event as ShowSimpleAlert);
+        break;
+      case SetResponseResult:
+        _handleSetResponseResult(event as SetResponseResult);
+        break;
     }
   }
 
   void _handleChangeTypeCalcSample(ChangeTypeCalcSample event) {
     setState(() {
       state.typeCalcSample=event.newStatus;
+    });
+  }
+
+  void _handleShowSimpleAlert(ShowSimpleAlert event) {
+    showDialog(context: context, builder: (context)=> BasicAlertDialog(content: event.message));
+  }
+
+  void _handleSetResponseResult(SetResponseResult event) {
+    setState(() {
+      state.currentResponse=event.result;
+      state.currentResponseInfo=event.infoResult;
     });
   }
 }
