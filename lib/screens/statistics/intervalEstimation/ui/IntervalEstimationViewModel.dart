@@ -145,10 +145,17 @@ class IntervalEstimationViewModel extends EventViewModel{
           double rightInterval = mean + (tn_1 * (S/sqrt(n)) * sqrt((N-n)/(N-1)));
           double leftIntervalMinDecimals = double.parse(leftInterval.toStringAsFixed(5));
           double rightIntervalMinDecimals = double.parse(rightInterval.toStringAsFixed(5));
-          notify(SetResponseResult("$leftIntervalMinDecimals  <=  M  <=  $rightIntervalMinDecimals", "IntervalEstimationConstants.knowSigmaExplication"));
+          notify(SetResponseResult("$leftIntervalMinDecimals  <=  M  <=  $rightIntervalMinDecimals", IntervalEstimationConstants.notKnowSigmaAndKnowPopulationExplication));
           return ; //after, calc value to 1.3 formula
         }
       }else{
+        double tn_1 = findTdStudentValueTn(n, alpha);
+        double S = double.parse(sOrSigmaController.text);
+        double leftInterval = mean - (tn_1 * (S/sqrt(n)) );
+        double rightInterval = mean + (tn_1 * (S/sqrt(n)) );
+        double leftIntervalMinDecimals = double.parse(leftInterval.toStringAsFixed(5));
+        double rightIntervalMinDecimals = double.parse(rightInterval.toStringAsFixed(5));
+        notify(SetResponseResult("$leftIntervalMinDecimals  <=  M  <=  $rightIntervalMinDecimals", IntervalEstimationConstants.notKnowSigmaAndPopulationExplication));
         return; //else 1.2
       }
 

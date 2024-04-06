@@ -28,7 +28,8 @@ class IntervalEstimationConstants {
   static String explicationInfo="Explicación:";
 
   static String knowSigmaExplication="Se uso la formula 1.1 ya que es un experimento poblacional y se conoce sigma. La formula que se utilizó fue:  x - z*(σ/√n) <= m <=  x + z*(σ/√n)";
-
+  static String notKnowSigmaAndKnowPopulationExplication ="Se uso la formula 1.3 debido a que la población se conoce y el porcentado de la muestra es mayor al 5%. La formula fue: x - tn-1 * (S/√n) * √(N-n / N-1) <= m <=   x + tn-1 * (S/√n) * √(N-n / N-1) ";
+  static String notKnowSigmaAndPopulationExplication ="Se uso la formula 1.2 debido a que no se conoce S ni la población. La formula fue: x - tn-1 * (S/√n)  <= m <=   x + tn-1 * (S/√n) *  ";
   static List<List<double>> normalTable = [
     [-1, 0, 0.01,0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09],
     [0.0, 0.5, 0.496,0.492,0.488,0.484,0.4801,0.4761,0.4721,0.4681,0.4641],
