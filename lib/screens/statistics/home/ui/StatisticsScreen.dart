@@ -49,6 +49,11 @@ class _StatisticsScreenState extends State<StatisticsScreen>  implements EventOb
         description: StatisticsConstants.intervalEstimationDescription,
         screenPath: GlobalConstants.intervalEstimationScreen
     ),
+    MenuModel(
+        title: StatisticsConstants.inferenceAboutSampleTitle,
+        description: StatisticsConstants.inferenceAboutSampleDescription,
+        screenPath: GlobalConstants.inferenceAboutSampleScreen
+    ),
   ];
 
   @override

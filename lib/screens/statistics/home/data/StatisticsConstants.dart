@@ -14,4 +14,7 @@ class StatisticsConstants {
 
   static String intervalEstimationTitle = "Intervalos de confianza";
   static String intervalEstimationDescription="Calcula los intervalos de confianza  con datos que proporciones";
+
+  static String inferenceAboutSampleTitle="Inferencia sobre una muestra";
+  static String inferenceAboutSampleDescription="Calcule la probablidad con base a datos en la campana de Gauss y muestre sus intervalos de aceptación de hipotesis";
 }
