@@ -14,5 +14,5 @@ class InferenceAboutSampleState {
     "Menor que:"
   ];
   String inferenceResultText="";
-
+  String currentTypeInequality = "Diferente que:";
 }

@@ -7,7 +7,7 @@ class InferenceAboutSampleConstants {
   static String alphaValueLabel="Valor de alpha";
   static String percentageTrustLabel ="Porcentaje de confianza";
   static String typeInequalityLabel="Tipo de desigualdad para H2";
-
+  static String processTextButton="Calcular";
 
 
 

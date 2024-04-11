@@ -1,7 +1,10 @@
 
 
+import 'package:fisicapf/GlobalConstants.dart';
+import 'package:fisicapf/GlobalMetods.dart';
 import 'package:fisicapf/mvvm/observer.dart';
 import 'package:fisicapf/screens/statistics/inferenceAboutSample/data/InferenceAboutSampleConstants.dart';
+import 'package:fisicapf/screens/statistics/inferenceAboutSample/ui/InferenceAboutSampleEvent.dart';
 import 'package:fisicapf/screens/statistics/inferenceAboutSample/ui/InferenceAboutSampleState.dart';
 import 'package:fisicapf/screens/statistics/inferenceAboutSample/ui/InferenceAboutSampleViewModel.dart';
 import 'package:fisicapf/widgets/ComboBox/SimpleComboBox.dart';
@@ -53,21 +56,28 @@ class _InferenceAboutSampleScreenState extends State<InferenceAboutSampleScreen>
                 InputBasic(
                   label: InferenceAboutSampleConstants.h1MLabel,
                   inputController: state.controllerInterestH1,
+                  validator: (value){
+                    return GlobalMetods.validatorIsDouble(value);
+                  },
                 ),
                 SizedBox(height: height*0.01,),
                 InputBasic(
                   label: InferenceAboutSampleConstants.h2MLabel,
                   inputController: state.controllerInterestH2,
+                  validator: (value){
+                    return GlobalMetods.validatorIsDouble(value);
+                  },
                 ),
                 SizedBox(height: height*0.01,),
                 Text(InferenceAboutSampleConstants.knowAlphaValueTextInfo),
                 SizedBox(height: height*0.01,),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Switch(
                       value: state.knowAlphaValue,
                       onChanged: (newValue){
-            
+                        viewModel.changeKnowAlphaSwitch(newValue);
                       },
                     ),
                     SizedBox(width: width*0.05,),
@@ -76,12 +86,18 @@ class _InferenceAboutSampleScreenState extends State<InferenceAboutSampleScreen>
                         child: InputBasic(
                           label: InferenceAboutSampleConstants.alphaValueLabel,
                           inputController: state.controllerAlphaValue,
+                          validator: (value){
+                            return GlobalMetods.validatorIsDouble(value);
+                          },
                         ),
                     ) else
                       Expanded(
                         child: InputBasic(
                           label: InferenceAboutSampleConstants.percentageTrustLabel,
                           inputController: state.controllerPercentageTrust,
+                          validator: (value){
+                            return GlobalMetods.validatorIsDouble(value);
+                          },
                         ),
                     )
                   ],
@@ -90,26 +106,39 @@ class _InferenceAboutSampleScreenState extends State<InferenceAboutSampleScreen>
                 Text(InferenceAboutSampleConstants.typeInequalityLabel),
                 SizedBox(height: height*0.01,),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
                       child: SimpleComboBox(
-                        currentValue: state.typeInequalityList.first,
+                        currentValue: state.currentTypeInequality,
                         items: state.typeInequalityList.map((e) {
                           return DropdownMenuItem(
                             value: e,
                             child: Text(e),
                           );
                         }).toList(),
+                        onChange: (value){
+                          viewModel.changeItemTypeInequality(value as String);
+                        },
                       ),
                     ),
                     SizedBox(width: width*0.05,),
                     Expanded(
                       child: InputBasic(
-                        
+                        validator: (value){
+                          return GlobalMetods.validatorIsDouble(value);
+                        },
                       ),
                     )
                   ],
+                ),
+                SizedBox(height: height*0.02,),
+                Center(
+                  child: FilledButton(
+                    onPressed: (){},
+                    child: Text(GlobalConstants.processTextButton),
+                  ),
                 ),
                 SizedBox(height: height*0.05,),
                 if (state.inferenceResultText.isNotEmpty) 
@@ -129,8 +158,29 @@ class _InferenceAboutSampleScreenState extends State<InferenceAboutSampleScreen>
 
   @override
   void notify(ViewEvent event) {
-    // TODO: implement notify
+    switch(event.runtimeType){
+      case ChangeKnowAlphaEvent:
+        _handleChangeKnowAlphaValue(event as ChangeKnowAlphaEvent);
+        break;
+      case ChangeCurrentTypeInequalityH2:
+        _handleChangeCurrentTypeInequalityH2(event as ChangeCurrentTypeInequalityH2);
+        break;
+    }
   }
+
+  void _handleChangeKnowAlphaValue(ChangeKnowAlphaEvent event) {
+    setState(() {
+      state.knowAlphaValue = event.newValue;
+    });
+  }
+
+  void _handleChangeCurrentTypeInequalityH2(ChangeCurrentTypeInequalityH2 event) {
+    setState(() {
+      state.currentTypeInequality=event.newValue;
+    });
+  }
+
+
 }
 
 
