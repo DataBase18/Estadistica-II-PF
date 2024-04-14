@@ -7,12 +7,18 @@ class InferenceAboutSampleState {
   TextEditingController controllerInterestH2=TextEditingController();
   bool knowAlphaValue=false;
   TextEditingController controllerAlphaValue=TextEditingController();
-  TextEditingController controllerPercentageTrust =TextEditingController();
+  TextEditingController controllerCriticValue =TextEditingController();
   List typeInequalityList=[
-    "Mayor que: ",
+    "Mayor que:",
     "Diferente que:",
     "Menor que:"
   ];
   String inferenceResultText="";
   String currentTypeInequality = "Diferente que:";
+  int currentTypeCalcSelected = 1;
+
+  TextEditingController controllerMean = TextEditingController();
+  TextEditingController controllerS = TextEditingController();
+  TextEditingController controllerSigma = TextEditingController();
+  TextEditingController controllerSample = TextEditingController();
 }

@@ -11,3 +11,13 @@ class ChangeCurrentTypeInequalityH2 extends ViewEvent {
   ChangeCurrentTypeInequalityH2(this.newValue):super("ChangeCurrentTypeInequalityH2");
 
 }
+
+class ChangeCurrentTypeCalc extends ViewEvent {
+  int newType;
+  ChangeCurrentTypeCalc(this.newType):super("ChangeCurrentTypeCalc");
+}
+
+class ShowSimpleAlert extends ViewEvent {
+  String message;
+  ShowSimpleAlert(this.message):super("ShowSimpleAlert");
+}

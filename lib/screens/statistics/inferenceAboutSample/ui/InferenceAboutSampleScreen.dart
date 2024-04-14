@@ -7,7 +7,10 @@ import 'package:fisicapf/screens/statistics/inferenceAboutSample/data/InferenceA
 import 'package:fisicapf/screens/statistics/inferenceAboutSample/ui/InferenceAboutSampleEvent.dart';
 import 'package:fisicapf/screens/statistics/inferenceAboutSample/ui/InferenceAboutSampleState.dart';
 import 'package:fisicapf/screens/statistics/inferenceAboutSample/ui/InferenceAboutSampleViewModel.dart';
+import 'package:fisicapf/screens/statistics/inferenceAboutSample/ui/InferenceAboutSampleWidget.dart';
+import 'package:fisicapf/widgets/BasicAlertDialog.dart';
 import 'package:fisicapf/widgets/ComboBox/SimpleComboBox.dart';
+import 'package:fisicapf/widgets/TitleText.dart';
 import 'package:fisicapf/widgets/inputBasic/InputBasic.dart';
 import 'package:flutter/material.dart';
 
@@ -46,8 +49,14 @@ class _InferenceAboutSampleScreenState extends State<InferenceAboutSampleScreen>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const BackButton(),
-                SizedBox(height: height*0.01,),
+                Row(
+                  children: [
+                    const BackButton(),
+                    SizedBox(width: width*0.01,),
+                    TitleText(text: InferenceAboutSampleConstants.title, fontSize: 22, bold: true,),
+                  ],
+                ),
+
                 InputBasic(
                   label: InferenceAboutSampleConstants.interestParameterLabel ,
                   inputController: state.controllerInterestParameter,
@@ -61,12 +70,36 @@ class _InferenceAboutSampleScreenState extends State<InferenceAboutSampleScreen>
                   },
                 ),
                 SizedBox(height: height*0.01,),
-                InputBasic(
-                  label: InferenceAboutSampleConstants.h2MLabel,
-                  inputController: state.controllerInterestH2,
-                  validator: (value){
-                    return GlobalMetods.validatorIsDouble(value);
-                  },
+                Text(InferenceAboutSampleConstants.h2MLabel),
+                SizedBox(height: height*0.01,),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: SimpleComboBox(
+                        currentValue: state.currentTypeInequality,
+                        items: state.typeInequalityList.map((e) {
+                          return DropdownMenuItem(
+                            value: e,
+                            child: Text(e),
+                          );
+                        }).toList(),
+                        onChange: (value){
+                          viewModel.changeItemTypeInequality(value as String);
+                        },
+                      ),
+                    ),
+                    SizedBox(width: width*0.05,),
+                    Expanded(
+                      child: InputBasic(
+                        inputController: state.controllerInterestH2,
+                        validator: (value){
+                          return GlobalMetods.validatorIsDouble(value);
+                        },
+                      ),
+                    )
+                  ],
                 ),
                 SizedBox(height: height*0.01,),
                 Text(InferenceAboutSampleConstants.knowAlphaValueTextInfo),
@@ -93,8 +126,8 @@ class _InferenceAboutSampleScreenState extends State<InferenceAboutSampleScreen>
                     ) else
                       Expanded(
                         child: InputBasic(
-                          label: InferenceAboutSampleConstants.percentageTrustLabel,
-                          inputController: state.controllerPercentageTrust,
+                          label: InferenceAboutSampleConstants.criticValueLabel,
+                          inputController: state.controllerCriticValue,
                           validator: (value){
                             return GlobalMetods.validatorIsDouble(value);
                           },
@@ -103,40 +136,69 @@ class _InferenceAboutSampleScreenState extends State<InferenceAboutSampleScreen>
                   ],
                 ),
                 SizedBox(height: height*0.03,),
-                Text(InferenceAboutSampleConstants.typeInequalityLabel),
-                SizedBox(height: height*0.01,),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: SimpleComboBox(
-                        currentValue: state.currentTypeInequality,
-                        items: state.typeInequalityList.map((e) {
-                          return DropdownMenuItem(
-                            value: e,
-                            child: Text(e),
-                          );
-                        }).toList(),
-                        onChange: (value){
-                          viewModel.changeItemTypeInequality(value as String);
-                        },
-                      ),
-                    ),
-                    SizedBox(width: width*0.05,),
-                    Expanded(
-                      child: InputBasic(
-                        validator: (value){
-                          return GlobalMetods.validatorIsDouble(value);
-                        },
-                      ),
-                    )
-                  ],
+                TitleText(text: InferenceAboutSampleConstants.typeCalcLabel, fontSize: 18,),
+                RadioListTile(
+                  value: 1,
+                  groupValue: state.currentTypeCalcSelected,
+                  title: Text(InferenceAboutSampleConstants.populationExperimentLabel),
+                  onChanged: (val) {
+                    viewModel.changeCurrentTypeCalc(val!);
+                  },
+                  activeColor: Colors.red,
+                  selected: state.currentTypeCalcSelected == 1,
+                ),
+                RadioListTile(
+                  value: 2,
+                  groupValue: state.currentTypeCalcSelected,
+                  title: Text(InferenceAboutSampleConstants.sampleExperimentLabel),
+                  onChanged: (val) {
+                    viewModel.changeCurrentTypeCalc(val!);
+                  },
+                  activeColor: Colors.red,
+                  selected: state.currentTypeCalcSelected == 2,
+                ),
+                RadioListTile(
+                  value: 3,
+                  groupValue: state.currentTypeCalcSelected,
+                  title: Text(InferenceAboutSampleConstants.proportionExperimentLabel),
+                  onChanged: (val) {
+                    viewModel.changeCurrentTypeCalc(val!);
+                  },
+                  activeColor: Colors.red,
+                  selected: state.currentTypeCalcSelected == 3,
+                ),
+                SizedBox(height: height*0.02,),
+                state.currentTypeCalcSelected == 1 ||
+                state.currentTypeCalcSelected == 2 ?
+                    PopulationOrSampleExperimentWidgets(viewModel: viewModel, state: state):
+                    Container(),
+                SizedBox(height: height*0.02,),
+                InputBasic(
+                  label:  InferenceAboutSampleConstants.sampleSizeLabel,
+                  inputController: state.controllerSample,
+                  validator: (value){
+                    return GlobalMetods.validatorIsDouble(value);
+                  },
                 ),
                 SizedBox(height: height*0.02,),
                 Center(
                   child: FilledButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      viewModel.calculate(
+                        interestParameterController: state.controllerInterestParameter,
+                        h1Controller: state.controllerInterestH1,
+                        h2Controller: state.controllerInterestH2,
+                        typeInequality: state.currentTypeInequality,
+                        knowAlphaValue: state.knowAlphaValue,
+                        criticValueController: state.controllerCriticValue,
+                        alphaValueController: state.controllerAlphaValue,
+                        typeCalc: state.currentTypeCalcSelected,
+                        meanController: state.controllerMean,
+                        sigmaController: state.controllerSigma,
+                        sampleController: state.controllerSample,
+                        deviationSController: state.controllerS
+                      );
+                    },
                     child: Text(GlobalConstants.processTextButton),
                   ),
                 ),
@@ -165,6 +227,12 @@ class _InferenceAboutSampleScreenState extends State<InferenceAboutSampleScreen>
       case ChangeCurrentTypeInequalityH2:
         _handleChangeCurrentTypeInequalityH2(event as ChangeCurrentTypeInequalityH2);
         break;
+      case ChangeCurrentTypeCalc:
+        _handleChangeCurrentTypeCalc(event as ChangeCurrentTypeCalc);
+        break;
+      case ShowSimpleAlert:
+        _handleShowSimpleAlert(event as ShowSimpleAlert);
+        break;
     }
   }
 
@@ -177,6 +245,18 @@ class _InferenceAboutSampleScreenState extends State<InferenceAboutSampleScreen>
   void _handleChangeCurrentTypeInequalityH2(ChangeCurrentTypeInequalityH2 event) {
     setState(() {
       state.currentTypeInequality=event.newValue;
+    });
+  }
+
+  void _handleChangeCurrentTypeCalc(ChangeCurrentTypeCalc event) {
+    setState(() {
+      state.currentTypeCalcSelected = event.newType;
+    });
+  }
+
+  void _handleShowSimpleAlert(ShowSimpleAlert event) {
+    showDialog(context: context, builder: (context){
+      return BasicAlertDialog(content: event.message);
     });
   }
 
@@ -193,3 +273,5 @@ class _GraphGaussBellZone extends StatelessWidget {
     return const Placeholder();
   }
 }
+
+
