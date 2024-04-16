@@ -29,10 +29,11 @@ class InferenceAboutSampleConstants {
   static String noValidStandardDeviationValueMessage="La desviación Standard no es válida";
   static String noValidSizeSampleValueMessage ="El tamaño de la muestra no es válida";
 
-  static String acceptH1Text = "Aceptamos la hipotesis de que _PARAMETER_ con los siguientes datos:";
-  static String rejectH1Text = "Rechazamos la hipotesis de que _PARAMETER_ con los siguientes datos:";
+  static String acceptH1Text = "Aceptamos la hipotesis de que _PARAMETER_  es  _INEQUALITY_ _H2_ con los siguientes datos:";
+  static String rejectH1Text = "Rechazamos la hipotesis de que _PARAMETER_  es  _INEQUALITY_ _H2_ con los siguientes datos:";
 
-
-
-
+  static String inferenceText="Inferencia:";
+  static String leftCriticalValueText="Valor crítico izquierdo: ";
+  static String rightCriticalValueText="Valor crítico derecho: ";
+  static String zValueText="Z: ";
 }

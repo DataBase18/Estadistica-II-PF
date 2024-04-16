@@ -205,11 +205,9 @@ class _InferenceAboutSampleScreenState extends State<InferenceAboutSampleScreen>
                 ),
                 SizedBox(height: height*0.05,),
                 if (state.inferenceResultText.isNotEmpty) 
-                  Text(
-                    state.inferenceResultText
-                  ) 
+                  InferenceWidgets(state: state)
                 else Container(),
-
+                SizedBox(height: height*0.02,),
                 if(state.pointsGauss.isNotEmpty)
                 _GraphGaussBellZone(
                   state: state,
@@ -259,6 +257,9 @@ class _InferenceAboutSampleScreenState extends State<InferenceAboutSampleScreen>
         break;
       case SetFunctionRightInterval:
         _handleSetFunctionRightInterval(event as SetFunctionRightInterval);
+        break;
+      case SetRectPointsToZResult:
+        _handleSetRectPointsToZResult(event as SetRectPointsToZResult);
         break;
     }
   }
@@ -329,6 +330,12 @@ class _InferenceAboutSampleScreenState extends State<InferenceAboutSampleScreen>
     });
   }
 
+  void _handleSetRectPointsToZResult(SetRectPointsToZResult event) {
+    setState(() {
+      state.pointsToRectZResult= event.points;
+    });
+  }
+
 
 }
 
@@ -372,6 +379,16 @@ class _GraphGaussBellZone extends StatelessWidget {
             ),
           ),
           lineBarsData: [
+            state.pointsToRectZResult.isNotEmpty?
+            LineChartBarData(
+                spots: state.pointsToRectZResult,
+                isCurved: false,
+                barWidth: 1.4,
+                dotData:const  FlDotData(show: false),
+                belowBarData: BarAreaData( show: false, ),
+                color: Theme.of(context).colorScheme.primary
+            ):LineChartBarData(),
+
             LineChartBarData(
               spots: state.pointsGauss,
               isCurved: true,
@@ -396,7 +413,9 @@ class _GraphGaussBellZone extends StatelessWidget {
               barWidth: 1,
               dotData:const  FlDotData(show: false),
               belowBarData: BarAreaData( show: true, ),
-            ):LineChartBarData()
+            ):LineChartBarData(),
+
+
           ],
         ),
       ),
@@ -404,44 +423,3 @@ class _GraphGaussBellZone extends StatelessWidget {
   }
 }
 
-/*
-LineChart(
-            LineChartData(
-              minX: -5,
-              maxX: 5,
-              maxY: 1,
-              borderData: FlBorderData(show: false),
-              titlesData: const FlTitlesData(
-                topTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                        showTitles: false
-                    )
-                ),
-                rightTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                        showTitles: false
-                    )
-                ),
-                leftTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                        showTitles: false
-                    )
-                ),
-              ),
-              lineBarsData: [
-                LineChartBarData(
-                  spots: [
-                    const FlSpot(-5, 0.0),
-                    const FlSpot(-1.5, 0.83),
-                    const FlSpot(-1.5,0),
-                  ],
-                  isCurved: true,
-                  barWidth: 1.5,
-                  dotData:const  FlDotData(show: false),
-                  belowBarData: BarAreaData( show: false, ),
-
-                ),
-              ],
-            ),
-          ),
-* */

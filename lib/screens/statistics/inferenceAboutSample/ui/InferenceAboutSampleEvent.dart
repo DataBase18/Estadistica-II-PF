@@ -59,3 +59,8 @@ class SetFunctionRightInterval extends ViewEvent {
   List<FlSpot> points;
   SetFunctionRightInterval(this.points):super("SetFunctionRightInterval");
 }
+
+class SetRectPointsToZResult extends ViewEvent {
+  List<FlSpot> points;
+  SetRectPointsToZResult(this.points):super("SetRectPointsToZResult");
+}

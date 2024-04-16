@@ -30,5 +30,5 @@ class InferenceAboutSampleState {
   List<FlSpot> pointsGauss = [];
   List<FlSpot> pointsLeftIntervalFunction = [];
   List<FlSpot> pointsRightIntervalFunction = [];
-
+  List<FlSpot> pointsToRectZResult = [];
 }

@@ -142,10 +142,20 @@ class InferenceAboutSampleViewModel extends EventViewModel {
     notify(SetFunctionLeftInterval([]));
 
     //Inference setter data
-    String inference = "${InferenceAboutSampleConstants.acceptH1Text.replaceAll("_PARAMETER_", interestParameterController.text)}"
-        "Extremo izquierdo: -$rejectZoneZValue\nExtremo derecho: $rejectZoneZValue\nZ: $zToInference";
+    String inference = _replaceInferenceValuesFromString(
+        InferenceAboutSampleConstants.acceptH1Text,
+        interestParameterController: interestParameterController,
+        typeInequality: typeInequality,
+        h2: h2
+    );
 
-    graph(-5, 5);
+    //graph to bell gauss
+    graphGaussBellFunction(-5, 5);
+
+    //graph rect to z result
+    FlSpot aPoint = FlSpot(zToInference, 0);
+    FlSpot bPoint = FlSpot(zToInference, gaussFx(zToInference));
+    notify(SetRectPointsToZResult([aPoint, bPoint]));
 
     if(typeInequality=="Diferente que:"){
       graphRightInterval(rejectZoneZValue,5 );
@@ -153,20 +163,32 @@ class InferenceAboutSampleViewModel extends EventViewModel {
       notify(SetRightCriticValue( rejectZoneZValue));
       notify(SetLeftCriticValue( - rejectZoneZValue));
       if(!(zToInference>= -rejectZoneZValue && zToInference <= rejectZoneZValue)){
-        inference = "${InferenceAboutSampleConstants.rejectH1Text.replaceAll("_PARAMETER_", interestParameterController.text)} es"
-            "Extremo izquierdo: -$rejectZoneZValue\nExtremo derecho: $rejectZoneZValue\nZ: $zToInference";
+        inference = _replaceInferenceValuesFromString(
+            InferenceAboutSampleConstants.rejectH1Text,
+            interestParameterController: interestParameterController,
+            typeInequality: typeInequality,
+            h2: h2
+        );
       }
     }else if(typeInequality=="Mayor que:"){
       graphLeftInterval(rejectZoneZValue,5 );
       if(zToInference>rejectZoneZValue){
-        inference = "${InferenceAboutSampleConstants.rejectH1Text.replaceAll("_PARAMETER_", interestParameterController.text)}"
-            "Extremo derecho: $rejectZoneZValue\nZ: $zToInference";
+        inference = _replaceInferenceValuesFromString(
+            InferenceAboutSampleConstants.rejectH1Text,
+            interestParameterController: interestParameterController,
+            typeInequality: typeInequality,
+            h2: h2
+        );
       }
       notify(SetRightCriticValue( rejectZoneZValue));
     }else{
       if(zToInference<-rejectZoneZValue){
-        inference = "${InferenceAboutSampleConstants.rejectH1Text.replaceAll("_PARAMETER_", interestParameterController.text)}"
-            "Extremo izquierdo: -$rejectZoneZValue\nZ: $zToInference";
+        inference = _replaceInferenceValuesFromString(
+          InferenceAboutSampleConstants.rejectH1Text,
+          interestParameterController: interestParameterController,
+          typeInequality: typeInequality,
+          h2: h2
+        );
       }
       graphLeftInterval(-5,-rejectZoneZValue );
       notify(SetLeftCriticValue( - rejectZoneZValue));
@@ -175,13 +197,24 @@ class InferenceAboutSampleViewModel extends EventViewModel {
     notify(SetZValue(zToInference));
 
   }
+
+  String _replaceInferenceValuesFromString(String str, {
+    required TextEditingController interestParameterController,
+    required String typeInequality,
+    required double h2
+  }){
+    return str.replaceAll("_PARAMETER_", interestParameterController.text.toLowerCase())
+        .replaceAll("_INEQUALITY_", typeInequality.toLowerCase())
+        .replaceAll("_H2_", h2.toStringAsFixed(4).toString());
+  }
+
   double gaussFx (double x){
     num function = ((-pow(x,2))/2);
     num base =1.5;
     return pow(base, function).toDouble();
   }
 
-  void graph (double leftInterval, double rightInterval){
+  void graphGaussBellFunction (double leftInterval, double rightInterval){
     List<FlSpot> points = [];
     for(double i = leftInterval; i<rightInterval; i += 0.1 ){
       points.add(
