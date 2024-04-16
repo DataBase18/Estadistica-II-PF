@@ -6,6 +6,7 @@ import 'package:fisicapf/GlobalMetods.dart';
 import 'package:fisicapf/mvvm/viewModel.dart';
 import 'package:fisicapf/screens/statistics/inferenceAboutSample/data/InferenceAboutSampleConstants.dart';
 import 'package:fisicapf/screens/statistics/inferenceAboutSample/ui/InferenceAboutSampleEvent.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 
 class InferenceAboutSampleViewModel extends EventViewModel {
@@ -92,6 +93,7 @@ class InferenceAboutSampleViewModel extends EventViewModel {
     }else{
       //after, validate data to proportion experiment
     }
+
     //init decimals values
     double h1 = double.parse(h1Controller.text);
     double h2 = double.parse(h2Controller.text);
@@ -107,31 +109,104 @@ class InferenceAboutSampleViewModel extends EventViewModel {
       alphaValue=alphaValue/2;
     }
 
+    double rejectZoneZValue =0;
+    double zToInference = 0;
+    double sigmaOrS = 0;
+    double mean = 0;
+
+
     //calc
-    if(typeCalc == 1){
-      double mean = double.parse(meanController.text);
-      double sigma = double.parse(sigmaController.text);
+    if(typeCalc == 1 || typeCalc == 2){
+      mean = double.parse(meanController.text);
       double M = h1;
-      double rejectZoneZValue = GlobalMetods.findZNormalValue(alphaValue);
-      if(typeInequality=="Diferente que:"){
-        //notify(SetCriticsValues(-rejectZoneZValue, rejectZoneZValue));
-      }else if(typeInequality=="Mayor que:"){
-        //notify(SetRightCriticValue( rejectZoneZValue));
+      if(typeCalc == 1){
+        sigmaOrS = double.parse(sigmaController.text);
+        rejectZoneZValue = GlobalMetods.findZNormalValue(alphaValue);
       }else{
-        //notify(SetLeftCriticValue( - rejectZoneZValue));
+        rejectZoneZValue = GlobalMetods.findTdStudentValueTn(n, alphaValue);
+        sigmaOrS = double.parse(deviationSController.text);
       }
-      double zToInference = calcTrialValue(
+
+      zToInference = calcTrialValue(
         mean: mean,
         M: M,
-        sigmaOrStandardDeviation: sigma,
+        sigmaOrStandardDeviation: sigmaOrS,
         n: n
       );
-      print(zToInference);
-    }else if(typeCalc == 2){
-
-    }else {
+    } else {
       //calc proportion formulate
     }
 
+    //clear old data
+    notify(SetFunctionRightInterval([]));
+    notify(SetFunctionLeftInterval([]));
+
+    //Inference setter data
+    String inference = "${InferenceAboutSampleConstants.acceptH1Text.replaceAll("_PARAMETER_", interestParameterController.text)}"
+        "Extremo izquierdo: -$rejectZoneZValue\nExtremo derecho: $rejectZoneZValue\nZ: $zToInference";
+
+    graph(-5, 5);
+
+    if(typeInequality=="Diferente que:"){
+      graphRightInterval(rejectZoneZValue,5 );
+      graphLeftInterval(-5,-rejectZoneZValue );
+      notify(SetRightCriticValue( rejectZoneZValue));
+      notify(SetLeftCriticValue( - rejectZoneZValue));
+      if(!(zToInference>= -rejectZoneZValue && zToInference <= rejectZoneZValue)){
+        inference = "${InferenceAboutSampleConstants.rejectH1Text.replaceAll("_PARAMETER_", interestParameterController.text)} es"
+            "Extremo izquierdo: -$rejectZoneZValue\nExtremo derecho: $rejectZoneZValue\nZ: $zToInference";
+      }
+    }else if(typeInequality=="Mayor que:"){
+      graphLeftInterval(rejectZoneZValue,5 );
+      if(zToInference>rejectZoneZValue){
+        inference = "${InferenceAboutSampleConstants.rejectH1Text.replaceAll("_PARAMETER_", interestParameterController.text)}"
+            "Extremo derecho: $rejectZoneZValue\nZ: $zToInference";
+      }
+      notify(SetRightCriticValue( rejectZoneZValue));
+    }else{
+      if(zToInference<-rejectZoneZValue){
+        inference = "${InferenceAboutSampleConstants.rejectH1Text.replaceAll("_PARAMETER_", interestParameterController.text)}"
+            "Extremo izquierdo: -$rejectZoneZValue\nZ: $zToInference";
+      }
+      graphLeftInterval(-5,-rejectZoneZValue );
+      notify(SetLeftCriticValue( - rejectZoneZValue));
+    }
+    notify(SetInferenceText(inference));
+    notify(SetZValue(zToInference));
+
+  }
+  double gaussFx (double x){
+    num function = ((-pow(x,2))/2);
+    num base =1.5;
+    return pow(base, function).toDouble();
+  }
+
+  void graph (double leftInterval, double rightInterval){
+    List<FlSpot> points = [];
+    for(double i = leftInterval; i<rightInterval; i += 0.1 ){
+      points.add(
+        FlSpot(i, gaussFx(i))
+      );
+    }
+    notify(SetGaussBellPoints(points));
+  }
+
+  void graphLeftInterval (  double initialX, double limitX, ){
+    List<FlSpot> points = [];
+    for(double i = initialX; i<limitX; i += 0.01 ){
+      points.add(
+        FlSpot(i, gaussFx(i))
+      );
+    }
+    notify(SetFunctionLeftInterval(points));
+  }
+  void graphRightInterval (  double initialX, double limitX, ){
+    List<FlSpot> points = [];
+    for(double i = initialX; i<limitX; i += 0.01 ){
+      points.add(
+          FlSpot(i, gaussFx(i))
+      );
+    }
+    notify(SetFunctionRightInterval(points));
   }
 }

@@ -1,11 +1,12 @@
 
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 
 class InferenceAboutSampleState {
   TextEditingController controllerInterestParameter=TextEditingController();
   TextEditingController controllerInterestH1=TextEditingController();
   TextEditingController controllerInterestH2=TextEditingController();
-  bool knowAlphaValue=false;
+  bool knowAlphaValue=true;
   TextEditingController controllerAlphaValue=TextEditingController();
   TextEditingController controllerCriticValue =TextEditingController();
   List typeInequalityList=[
@@ -21,4 +22,13 @@ class InferenceAboutSampleState {
   TextEditingController controllerS = TextEditingController();
   TextEditingController controllerSigma = TextEditingController();
   TextEditingController controllerSample = TextEditingController();
+
+  double? leftCriticalValue ;
+  double? rightCriticalValue ;
+  double? zValue ;
+
+  List<FlSpot> pointsGauss = [];
+  List<FlSpot> pointsLeftIntervalFunction = [];
+  List<FlSpot> pointsRightIntervalFunction = [];
+
 }

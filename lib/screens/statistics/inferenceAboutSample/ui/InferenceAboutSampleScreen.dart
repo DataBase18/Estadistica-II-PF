@@ -12,6 +12,7 @@ import 'package:fisicapf/widgets/BasicAlertDialog.dart';
 import 'package:fisicapf/widgets/ComboBox/SimpleComboBox.dart';
 import 'package:fisicapf/widgets/TitleText.dart';
 import 'package:fisicapf/widgets/inputBasic/InputBasic.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class InferenceAboutSampleScreen extends StatefulWidget {
@@ -208,8 +209,13 @@ class _InferenceAboutSampleScreenState extends State<InferenceAboutSampleScreen>
                     state.inferenceResultText
                   ) 
                 else Container(),
+
+                if(state.pointsGauss.isNotEmpty)
+                _GraphGaussBellZone(
+                  state: state,
+                  viewModel: viewModel,
+                )else Container(),
                 SizedBox(height: height*0.05,),
-                _GraphGaussBellZone()
               ],
             ),
           ),
@@ -232,6 +238,27 @@ class _InferenceAboutSampleScreenState extends State<InferenceAboutSampleScreen>
         break;
       case ShowSimpleAlert:
         _handleShowSimpleAlert(event as ShowSimpleAlert);
+        break;
+      case SetLeftCriticValue:
+        _handleSetLeftCriticValue(event as SetLeftCriticValue);
+        break;
+      case SetRightCriticValue:
+        _handleSetRightCriticValue(event as SetRightCriticValue);
+        break;
+      case SetZValue:
+        _handleSetZValue(event as SetZValue);
+        break;
+      case SetInferenceText:
+        _handleSetInferenceText(event as SetInferenceText);
+        break;
+      case SetGaussBellPoints:
+        _handleSetGaussBellPoints(event as SetGaussBellPoints);
+        break;
+      case SetFunctionLeftInterval:
+        _handleSetFunctionLeftInterval(event as SetFunctionLeftInterval);
+        break;
+      case SetFunctionRightInterval:
+        _handleSetFunctionRightInterval(event as SetFunctionRightInterval);
         break;
     }
   }
@@ -260,18 +287,161 @@ class _InferenceAboutSampleScreenState extends State<InferenceAboutSampleScreen>
     });
   }
 
+  void _handleSetLeftCriticValue(SetLeftCriticValue event) {
+    setState(() {
+      state.leftCriticalValue = event.leftValue;
+    });
+  }
+
+  void _handleSetRightCriticValue(SetRightCriticValue event) {
+    setState(() {
+      state.rightCriticalValue = event.rightValue;
+    });
+  }
+
+  void _handleSetZValue(SetZValue event) {
+    setState(() {
+      state.zValue=event.zValue;
+    });
+  }
+
+  void _handleSetInferenceText(SetInferenceText event) {
+    setState(() {
+      state.inferenceResultText =event.result;
+    });
+  }
+
+  void _handleSetGaussBellPoints(SetGaussBellPoints event) {
+    setState(() {
+      state.pointsGauss = event.points;
+    });
+  }
+
+  void _handleSetFunctionLeftInterval(SetFunctionLeftInterval event) {
+    setState(() {
+      state.pointsLeftIntervalFunction=event.points;
+    });
+  }
+
+  void _handleSetFunctionRightInterval(SetFunctionRightInterval event) {
+    setState(() {
+      state.pointsRightIntervalFunction=event.points;
+    });
+  }
+
 
 }
 
 
 
 class _GraphGaussBellZone extends StatelessWidget {
-  const _GraphGaussBellZone({super.key});
-
+  const _GraphGaussBellZone({super.key, required this.state, required this.viewModel});
+  final InferenceAboutSampleViewModel viewModel ;
+  final InferenceAboutSampleState state  ;
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    final width=MediaQuery.of(context).size.width;
+    final height=MediaQuery.of(context).size.height;
+    return SizedBox(
+      width: width,
+      height: height*0.25,
+      child: LineChart(
+        LineChartData(
+          borderData: FlBorderData(show: false),
+          titlesData: const FlTitlesData(
+            topTitles: AxisTitles(
+                sideTitles: SideTitles(
+                    showTitles: false
+                )
+            ),
+            rightTitles: AxisTitles(
+                sideTitles: SideTitles(
+                    showTitles: false
+                )
+            ),
+            leftTitles: AxisTitles(
+                sideTitles: SideTitles(
+                    showTitles: false
+                )
+            ),
+            bottomTitles:AxisTitles(
+              drawBelowEverything: false,
+                sideTitles: SideTitles(
+                  showTitles: true,
+                )
+            ),
+          ),
+          lineBarsData: [
+            LineChartBarData(
+              spots: state.pointsGauss,
+              isCurved: true,
+              barWidth: 1.2,
+              dotData:const  FlDotData(show: false),
+              belowBarData: BarAreaData( show: false, ),
+            ),
+
+            state.pointsLeftIntervalFunction.isNotEmpty?
+            LineChartBarData(
+              spots: state.pointsLeftIntervalFunction,
+              isCurved: true,
+              barWidth: 1,
+              dotData:const  FlDotData(show: false),
+              belowBarData: BarAreaData( show: true, ),
+            ):LineChartBarData(),
+
+            state.pointsRightIntervalFunction.isNotEmpty?
+            LineChartBarData(
+              spots: state.pointsRightIntervalFunction,
+              isCurved: true,
+              barWidth: 1,
+              dotData:const  FlDotData(show: false),
+              belowBarData: BarAreaData( show: true, ),
+            ):LineChartBarData()
+          ],
+        ),
+      ),
+    );
   }
 }
 
+/*
+LineChart(
+            LineChartData(
+              minX: -5,
+              maxX: 5,
+              maxY: 1,
+              borderData: FlBorderData(show: false),
+              titlesData: const FlTitlesData(
+                topTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                        showTitles: false
+                    )
+                ),
+                rightTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                        showTitles: false
+                    )
+                ),
+                leftTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                        showTitles: false
+                    )
+                ),
+              ),
+              lineBarsData: [
+                LineChartBarData(
+                  spots: [
+                    const FlSpot(-5, 0.0),
+                    const FlSpot(-1.5, 0.83),
+                    const FlSpot(-1.5,0),
+                  ],
+                  isCurved: true,
+                  barWidth: 1.5,
+                  dotData:const  FlDotData(show: false),
+                  belowBarData: BarAreaData( show: false, ),
 
+                ),
+              ],
+            ),
+          ),
+* */
