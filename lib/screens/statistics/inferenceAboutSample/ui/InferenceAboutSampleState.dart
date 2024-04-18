@@ -31,4 +31,7 @@ class InferenceAboutSampleState {
   List<FlSpot> pointsLeftIntervalFunction = [];
   List<FlSpot> pointsRightIntervalFunction = [];
   List<FlSpot> pointsToRectZResult = [];
+
+  TextEditingController controllerP = TextEditingController();
+  TextEditingController controllerP0 = TextEditingController();
 }

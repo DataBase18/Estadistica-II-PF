@@ -49,6 +49,18 @@ class InferenceAboutSampleViewModel extends EventViewModel {
     return zValue;
   }
 
+  double calcProportionValue ({
+    required double p,
+    required double p0,
+    required double n
+  }){
+    double numerator = p-p0;
+    double q0 = 1-p0;
+    double denominator = sqrt( (p0*q0)/n );
+
+    return numerator/denominator;
+  }
+
 
   void calculate({
     required TextEditingController interestParameterController,
@@ -63,7 +75,8 @@ class InferenceAboutSampleViewModel extends EventViewModel {
     required TextEditingController sigmaController,
     required TextEditingController sampleController,
     required TextEditingController deviationSController,
-    
+    required TextEditingController controllerP,
+    required TextEditingController controllerP0
   }){
     //validation inputs empty
     if(interestParameterController.text.isEmpty){
@@ -84,14 +97,15 @@ class InferenceAboutSampleViewModel extends EventViewModel {
     }else if(double.tryParse(sampleController.text) == null){
       notify(ShowSimpleAlert(InferenceAboutSampleConstants.noValidSizeSampleValueMessage));
       return;
-    }
-    if(typeCalc == 1 || typeCalc == 2){
-      if(double.tryParse(meanController.text) == null){
-        notify(ShowSimpleAlert(InferenceAboutSampleConstants.noValidMeanValueMessage));
-        return;
-      }
-    }else{
-      //after, validate data to proportion experiment
+    }else if(double.tryParse(controllerP.text) == null && typeCalc ==3){
+      notify(ShowSimpleAlert(InferenceAboutSampleConstants.noValidPValueMessage));
+      return;
+    }else if(double.tryParse(controllerP0.text) == null && typeCalc ==3){
+      notify(ShowSimpleAlert(InferenceAboutSampleConstants.noValidP0ValueMessage));
+      return;
+    }else if(double.tryParse(meanController.text) == null && typeCalc==1||typeCalc==2 ){
+      notify(ShowSimpleAlert(InferenceAboutSampleConstants.noValidMeanValueMessage));
+      return;
     }
 
     //init decimals values
@@ -134,7 +148,10 @@ class InferenceAboutSampleViewModel extends EventViewModel {
         n: n
       );
     } else {
-      //calc proportion formulate
+      double p = double.parse(controllerP.text);
+      double p0 = double.parse(controllerP0.text);
+      zToInference = calcProportionValue(p: p, p0: p0, n: n);
+      rejectZoneZValue = GlobalMetods.findTdStudentValueTn(n, alphaValue);
     }
 
     //clear old data

@@ -45,6 +45,36 @@ class PopulationOrSampleExperimentWidgets extends StatelessWidget {
   }
 }
 
+class ProportionWidgets extends StatelessWidget {
+  const ProportionWidgets({super.key, required this.state});
+  final InferenceAboutSampleState state;
+  @override
+  Widget build(BuildContext context) {
+    final width=MediaQuery.of(context).size.width;
+    final height=MediaQuery.of(context).size.height;
+    return Column(
+      children: [
+        InputBasic(
+          label: InferenceAboutSampleConstants.pLabel,
+          inputController: state.controllerP,
+          validator: (value){
+            return GlobalMetods.validatorIsDouble(value);
+          },
+        ),
+        SizedBox(height: height*0.02,),
+        InputBasic(
+          label: InferenceAboutSampleConstants.p0Label,
+          inputController: state.controllerP0,
+          validator: (value){
+            return GlobalMetods.validatorIsDouble(value);
+          },
+        ),
+      ],
+    );
+  }
+}
+
+
 class InferenceWidgets extends StatelessWidget {
   const InferenceWidgets({super.key, required this.state});
   final InferenceAboutSampleState state;

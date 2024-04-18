@@ -172,7 +172,7 @@ class _InferenceAboutSampleScreenState extends State<InferenceAboutSampleScreen>
                 state.currentTypeCalcSelected == 1 ||
                 state.currentTypeCalcSelected == 2 ?
                     PopulationOrSampleExperimentWidgets(viewModel: viewModel, state: state):
-                    Container(),
+                    ProportionWidgets(state: state,),
                 SizedBox(height: height*0.02,),
                 InputBasic(
                   label:  InferenceAboutSampleConstants.sampleSizeLabel,
@@ -197,7 +197,9 @@ class _InferenceAboutSampleScreenState extends State<InferenceAboutSampleScreen>
                         meanController: state.controllerMean,
                         sigmaController: state.controllerSigma,
                         sampleController: state.controllerSample,
-                        deviationSController: state.controllerS
+                        deviationSController: state.controllerS,
+                        controllerP: state.controllerP,
+                        controllerP0: state.controllerP0
                       );
                     },
                     child: Text(GlobalConstants.processTextButton),
