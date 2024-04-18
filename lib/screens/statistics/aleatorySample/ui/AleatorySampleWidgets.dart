@@ -73,20 +73,23 @@ class _ByIntervalTabState extends State<ByIntervalTab> {
 
           widget.state.intervalPopulation == null ? Container():
           Expanded(
-            child: SingleChildScrollView(
-              child: DataTable(
-                columns: [
-                  DataColumn(label: Text(AleatorySampleConstants.sequenceColumnName)),
-                  DataColumn(label: Text(AleatorySampleConstants.selectThisRowColumnName))
-                ],
-                rows: widget.state.intervalPopulation!.map((value) {
-                  return DataRow(
-                    cells: [
-                      DataCell(Text(value.toString())),
-                      DataCell(Text(widget.viewModel.getAleatorySelection()))
-                    ]
-                  );
-                }).toList(),
+            child: SizedBox(
+              width: width,
+              child: SingleChildScrollView(
+                child: DataTable(
+                  columns: [
+                    DataColumn(label: Text(AleatorySampleConstants.sequenceColumnName)),
+                    DataColumn(label: Text(AleatorySampleConstants.selectThisRowColumnName))
+                  ],
+                  rows: widget.state.intervalPopulation!.map((value) {
+                    return DataRow(
+                      cells: [
+                        DataCell(Text(value.toString())),
+                        DataCell(Text(widget.viewModel.getAleatorySelection()))
+                      ]
+                    );
+                  }).toList(),
+                ),
               ),
             ),
           )
@@ -130,20 +133,23 @@ class ByManuallyInput extends StatelessWidget {
           SizedBox(height: height*0.02,),
           state.valuesManuallyList ==null ? Container():
           Expanded(
-            child: SingleChildScrollView(
-              child: DataTable(
-                columns: [
-                  DataColumn(label: Text(AleatorySampleConstants.dataInput)),
-                  DataColumn(label: Text(AleatorySampleConstants.selectThisRowColumnName))
-                ],
-                rows: state.valuesManuallyList!.map((value) {
-                  return DataRow(
-                      cells: [
-                        DataCell(Text(value)),
-                        DataCell(Text(viewModel.getAleatorySelection()))
-                      ]
-                  );
-                }).toList(),
+            child: SizedBox(
+              width: width,
+              child: SingleChildScrollView(
+                child: DataTable(
+                  columns: [
+                    DataColumn(label: Text(AleatorySampleConstants.dataInput)),
+                    DataColumn(label: Text(AleatorySampleConstants.selectThisRowColumnName))
+                  ],
+                  rows: state.valuesManuallyList!.map((value) {
+                    return DataRow(
+                        cells: [
+                          DataCell(Text(value)),
+                          DataCell(Text(viewModel.getAleatorySelection()))
+                        ]
+                    );
+                  }).toList(),
+                ),
               ),
             ),
           )
