@@ -1,6 +1,7 @@
 
 import 'package:fisicapf/models/models.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 
 class MenuItemCard extends StatelessWidget {
@@ -28,7 +29,8 @@ class MenuItemCard extends StatelessWidget {
                   item.imageLottiePath!,
                   width: 75,
                 ),
-              ):Container(),
+              ):item.imageSvgPath != null?
+              SvgPicture.asset(item.imageSvgPath!):Container(),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

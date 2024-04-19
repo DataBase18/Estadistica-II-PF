@@ -7,7 +7,7 @@ class StatisticsConstants {
   static String aleatorySamplePath = "";
   static String aleatorySampleLottiePath = "";
 
-  static String sizeSampleCalcTitle = "Tamño de muestra";
+  static String sizeSampleCalcTitle = "Tamaño de muestra";
   static String sizeSampleCalcDescription ="Calcula el tamaño ideal de una muestra con base a los parametros que poseas";
   static String sizeSampleCalcPath = "";
   static String sizeSampleCalcLottiePath ="";
