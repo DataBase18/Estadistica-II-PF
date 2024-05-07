@@ -73,7 +73,14 @@ class SizeSampleCalcViewModel extends EventViewModel {
     }
 
     notify(SetSample(sample));
-
+    insertHistory(
+        p: p,
+        q: q,
+        e: e,
+        sizePopulation: N!,
+        trustPercentage: zTempValue!,
+        sizeSampleResult: sample.toDouble()
+    );
   }
 
   void insertHistory({

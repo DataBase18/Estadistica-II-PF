@@ -1,6 +1,7 @@
 
 
 import 'package:fisicapf/mvvm/observer.dart';
+import 'package:fisicapf/screens/history/ui/HistoryScreen.dart';
 import 'package:fisicapf/screens/home/data/HomeConstants.dart';
 import 'package:fisicapf/screens/home/ui/HomeEvent.dart';
 import 'package:fisicapf/screens/home/ui/HomeState.dart';
@@ -14,7 +15,7 @@ class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
 
   final HomeState state = HomeState(
-    currentPage:  StatisticsScreen(),
+    currentPage:  HistoryScreen(),
     currentIndexPage: 0
   );
 

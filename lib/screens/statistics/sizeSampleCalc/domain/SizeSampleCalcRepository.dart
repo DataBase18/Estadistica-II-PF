@@ -5,8 +5,8 @@ import 'package:fisicapf/services/services.dart';
 
 class SizeSampleCalcRepository {
   SQLLiteService service = SQLLiteService();
-  Future<dynamic> insertHistory(HistoryModel history){
-    final response = service.insertHistory(history);
+  Future<dynamic> insertHistory(HistoryModel history) async {
+    final response = await service.insertHistory(history);
     return response;
   }
 }
