@@ -13,4 +13,6 @@ class SizeSampleConstants {
   static String nnLabel = "Tamaño de población";
 
   static String resultText ="El tamaño de la muestra debe ser: ";
+
+  static String titleHistory = "Calculo de tamaño de una muestra";
 }

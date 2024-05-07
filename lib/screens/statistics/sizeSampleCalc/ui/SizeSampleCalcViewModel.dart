@@ -1,11 +1,19 @@
 
 import 'dart:math';
 
+import 'package:fisicapf/models/HistoryModel.dart';
+import 'package:fisicapf/models/models.dart';
 import 'package:fisicapf/mvvm/viewModel.dart';
 import 'package:fisicapf/screens/statistics/sizeSampleCalc/data/SizeSampleConstants.dart';
 import 'package:fisicapf/screens/statistics/sizeSampleCalc/ui/SizeSampleCalcEvent.dart';
 
+import '../domain/SizeSampleCalcRepository.dart';
+
 class SizeSampleCalcViewModel extends EventViewModel {
+
+  SizeSampleCalcViewModel(this.repository);
+
+  SizeSampleCalcRepository repository;
 
   double getZValue (int trust){
     switch (trust){
@@ -66,5 +74,28 @@ class SizeSampleCalcViewModel extends EventViewModel {
 
     notify(SetSample(sample));
 
+  }
+
+  void insertHistory({
+    required double p,
+    required double q,
+    required double e,
+    required int sizePopulation,
+    required int trustPercentage,
+    required double sizeSampleResult
+  }){
+    String valueHistory = "Calculo de muestra con $p "
+        "probabilidad de exito, $q probabilidad de rechazo, $e porcentaje de error,"
+        " y una poblacion de $sizePopulation. Se debe elegir una muestra de $sizeSampleResult";
+    HistoryModel history = HistoryModel(
+      typeDesc: SizeSampleConstants.titleHistory,
+      value: valueHistory,
+      date: DateTime.now(),
+    );
+    repository.insertHistory(history).then((value) {
+      if(value is ErrorModel){
+        notify(ShowSimpleAlert("${value.message} ${value.exception}"));
+      }
+    });
   }
 }

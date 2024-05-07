@@ -4,8 +4,10 @@ import 'package:fisicapf/GlobalConstants.dart';
 import 'package:fisicapf/GlobalMetods.dart';
 import 'package:fisicapf/mvvm/observer.dart';
 import 'package:fisicapf/screens/statistics/sizeSampleCalc/data/SizeSampleConstants.dart';
+import 'package:fisicapf/screens/statistics/sizeSampleCalc/domain/SizeSampleCalcRepository.dart';
 import 'package:fisicapf/screens/statistics/sizeSampleCalc/ui/SizeSampleCalcState.dart';
 import 'package:fisicapf/screens/statistics/sizeSampleCalc/ui/SizeSampleCalcViewModel.dart';
+import 'package:fisicapf/widgets/AlertBasic.dart';
 import 'package:fisicapf/widgets/ComboBox/SimpleComboBox.dart';
 import 'package:fisicapf/widgets/TitleText.dart';
 import 'package:fisicapf/widgets/inputBasic/InputBasic.dart';
@@ -25,7 +27,9 @@ class SizeSampleCalcScreen extends StatefulWidget {
 
 class _SizeSampleCalcScreenState extends State<SizeSampleCalcScreen> implements EventObserver{
 
-  final SizeSampleCalcViewModel viewModel  = SizeSampleCalcViewModel();
+  final SizeSampleCalcViewModel viewModel  = SizeSampleCalcViewModel(
+    SizeSampleCalcRepository()
+  );
 
   @override
   void initState(){
@@ -160,6 +164,10 @@ class _SizeSampleCalcScreenState extends State<SizeSampleCalcScreen> implements 
     }else if(event is SetSample){
       setState(() {
         widget.state.currentSampleCalc = event.sample;
+      });
+    }else if(event is ShowSimpleAlert){
+      showDialog(context: context, builder: (context){
+        return AlertBasic(content: event.message);
       });
     }
   }

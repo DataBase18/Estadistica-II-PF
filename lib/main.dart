@@ -3,10 +3,13 @@ import 'package:fisicapf/screens/physical/conversion/ui/ConversionScreen.dart';
 import 'package:fisicapf/screens/screens.dart';
 import 'package:fisicapf/screens/statistics/inferenceAboutSample/ui/InferenceAboutSampleScreen.dart';
 import 'package:fisicapf/screens/statistics/intervalEstimation/ui/IntervalEstimationScreen.dart';
+import 'package:fisicapf/services/services.dart';
 import 'package:fisicapf/themes/themes.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SQLLiteService.initDataBase();
   runApp(const MyApp());
 }
 
