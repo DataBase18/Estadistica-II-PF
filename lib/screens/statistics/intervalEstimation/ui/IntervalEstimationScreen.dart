@@ -4,6 +4,7 @@
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:fisicapf/mvvm/observer.dart';
 import 'package:fisicapf/screens/statistics/intervalEstimation/data/IntervalEstimationConstants.dart';
+import 'package:fisicapf/screens/statistics/intervalEstimation/domain/IntervalEstimationRepository.dart';
 import 'package:fisicapf/screens/statistics/intervalEstimation/ui/IntervalEstimationEvent.dart';
 import 'package:fisicapf/screens/statistics/intervalEstimation/ui/IntervalEstimationState.dart';
 import 'package:fisicapf/screens/statistics/intervalEstimation/ui/IntervalEstimationViewModel.dart';
@@ -21,7 +22,9 @@ class IntervalEstimationScreen extends StatefulWidget {
 
 class _IntervalEstimationScreenState extends State<IntervalEstimationScreen> implements EventObserver{
 
-  final IntervalEstimationViewModel viewModel = IntervalEstimationViewModel();
+  final IntervalEstimationViewModel viewModel = IntervalEstimationViewModel(
+    IntervalEstimationRepository()
+  );
   final IntervalEstimationState state = IntervalEstimationState();
 
   @override

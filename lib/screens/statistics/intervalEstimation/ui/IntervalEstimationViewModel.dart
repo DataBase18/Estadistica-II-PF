@@ -4,16 +4,18 @@ import 'dart:math';
 
 import 'package:fisicapf/GlobalConstants.dart';
 import 'package:fisicapf/GlobalMetods.dart';
+import 'package:fisicapf/models/models.dart';
 import 'package:fisicapf/mvvm/viewModel.dart';
 import 'package:fisicapf/screens/statistics/intervalEstimation/data/IntervalEstimationConstants.dart';
+import 'package:fisicapf/screens/statistics/intervalEstimation/domain/IntervalEstimationRepository.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'IntervalEstimationEvent.dart';
 
 class IntervalEstimationViewModel extends EventViewModel{
 
-
-
+  IntervalEstimationViewModel(this.repository);
+  IntervalEstimationRepository repository;
 
 
   void calculate({
@@ -51,6 +53,8 @@ class IntervalEstimationViewModel extends EventViewModel{
     double mean = double.parse(xController.text);
     double alpha = ic/2;
 
+    String result ="";
+
     //if i know sigma then 1.1
     if(!isSampleCalcType){
       if(double.tryParse(sOrSigmaController.text) == null){
@@ -64,6 +68,7 @@ class IntervalEstimationViewModel extends EventViewModel{
       double leftIntervalMinDecimals = double.parse(leftInterval.toStringAsFixed(5));
       double rightIntervalMinDecimals = double.parse(rightInterval.toStringAsFixed(5));
       notify(SetResponseResult("$leftIntervalMinDecimals  <=  M  <=  $rightIntervalMinDecimals", IntervalEstimationConstants.knowSigmaExplication));
+      result = "$leftIntervalMinDecimals  <=  M  <=  $rightIntervalMinDecimals. ${IntervalEstimationConstants.knowSigmaExplication}";
     }else { //else, if i don't know sigma
       //validation to standard deviation
       if(sOrSigmaController.text.isEmpty){
@@ -86,7 +91,8 @@ class IntervalEstimationViewModel extends EventViewModel{
           double leftIntervalMinDecimals = double.parse(leftInterval.toStringAsFixed(5));
           double rightIntervalMinDecimals = double.parse(rightInterval.toStringAsFixed(5));
           notify(SetResponseResult("$leftIntervalMinDecimals  <=  M  <=  $rightIntervalMinDecimals", IntervalEstimationConstants.notKnowSigmaAndKnowPopulationExplication));
-          return ; //after, calc value to 1.3 formula
+          result = "$leftIntervalMinDecimals  <=  M  <=  $rightIntervalMinDecimals. ${IntervalEstimationConstants.notKnowSigmaAndKnowPopulationExplication}";
+
         }
       }else{
         double tn_1 = GlobalMetods.findTdStudentValueTn(n, alpha);
@@ -96,9 +102,43 @@ class IntervalEstimationViewModel extends EventViewModel{
         double leftIntervalMinDecimals = double.parse(leftInterval.toStringAsFixed(5));
         double rightIntervalMinDecimals = double.parse(rightInterval.toStringAsFixed(5));
         notify(SetResponseResult("$leftIntervalMinDecimals  <=  M  <=  $rightIntervalMinDecimals", IntervalEstimationConstants.notKnowSigmaAndPopulationExplication));
-        return; //else 1.2
-      }
+        result = "$leftIntervalMinDecimals  <=  M  <=  $rightIntervalMinDecimals. ${IntervalEstimationConstants.notKnowSigmaAndPopulationExplication}";
 
+      }
     }
+
+    insertHistory(
+      N: populationController.text.isNotEmpty?" de ${populationController.text}" : " desconocida ",
+      n: n.toString(),
+      x: mean.toString(),
+      deviation: sOrSigmaController.text,
+      ic: ic.toString(),
+      result: result
+    );
+
+  }
+
+  void insertHistory({
+    required String N,
+    required String n,
+    required String x,
+    required String deviation,
+    required String ic,
+    required String result
+  }){
+    String valueHistory = "Estimación por intervalos de con una población $N, "
+        "una muestra  $n, una media  $x, desviación  $deviation, "
+        "y un intervalo de confianza  $ic % dio como resutlado la siguiente conclusión: "
+        "$result";
+    HistoryModel history = HistoryModel(
+      typeDesc: IntervalEstimationConstants.historyTitle,
+      value: valueHistory,
+      date: DateTime.now(),
+    );
+    repository.insertHistory(history).then((value) {
+      if(value is ErrorModel){
+        notify(ShowSimpleAlert("${value.message} ${value.exception}"));
+      }
+    });
   }
 }

@@ -30,5 +30,5 @@ class IntervalEstimationConstants {
   static String knowSigmaExplication="Se uso la formula 1.1 ya que es un experimento poblacional y se conoce sigma. La formula que se utilizó fue:  x - z*(σ/√n) <= m <=  x + z*(σ/√n)";
   static String notKnowSigmaAndKnowPopulationExplication ="Se uso la formula 1.3 debido a que la población se conoce y el porcentado de la muestra es mayor al 5%. La formula fue: x - tn-1 * (S/√n) * √(N-n / N-1) <= m <=   x + tn-1 * (S/√n) * √(N-n / N-1) ";
   static String notKnowSigmaAndPopulationExplication ="Se uso la formula 1.2 debido a que no se conoce S ni la población. La formula fue: x - tn-1 * (S/√n)  <= m <=   x + tn-1 * (S/√n) *  ";
-
+  static String historyTitle = "Estaimación de intervalos de confianza";
 }

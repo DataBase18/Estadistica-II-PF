@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
 
   final HomeState state = HomeState(
-    currentPage:  HistoryScreen(),
+    currentPage:  StatisticsScreen(),
     currentIndexPage: 0
   );
 
