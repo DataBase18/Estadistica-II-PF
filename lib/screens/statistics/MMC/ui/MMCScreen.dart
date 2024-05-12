@@ -1,4 +1,5 @@
 
+import 'package:fisicapf/GlobalMetods.dart';
 import 'package:fisicapf/mvvm/observer.dart';
 import 'package:fisicapf/screens/statistics/MMC/data/MMCConstants.dart';
 import 'package:fisicapf/screens/statistics/MMC/domain/MMCRepository.dart';
@@ -8,6 +9,7 @@ import 'package:fisicapf/screens/statistics/MMC/ui/MMCViewModel.dart';
 import 'package:fisicapf/screens/statistics/MMC/ui/MMCWidgets.dart';
 import 'package:fisicapf/widgets/AlertBasic.dart';
 import 'package:fisicapf/widgets/TitleText.dart';
+import 'package:fisicapf/widgets/inputBasic/InputBasic.dart';
 import 'package:flutter/material.dart';
 
 class MMCScreen extends StatefulWidget {
@@ -45,46 +47,67 @@ class _MMCScreenState extends State<MMCScreen> implements EventObserver {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const BackButton(),
-            Padding(
-              padding:  EdgeInsets.symmetric(horizontal: width*0.02),
-              child: Column(
-                children: [
-                  Row(
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding:  EdgeInsets.symmetric(horizontal: width*0.02),
+                  child: Column(
                     children: [
-                      const Icon(Icons.info),
-                      SizedBox(width: width*0.02,),
-                      Expanded(child: TitleText(text: MMCConstants.instructions, fontSize: 20, maxLines: 4,)),
-                    ],
-                  ),
-                  SizedBox(height: height*0.01,),
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: state.firstRowTitles,
-                        onChanged: (newValue){
-                          viewModel.changeFirstRowTitlesValue(newValue??true);
-                        }
-                      ),
-                      Text(MMCConstants.firstRowTitlesCheckLabel)
-                    ],
-                  ),
-                  SizedBox(height: height*0.01,),
-                  FilledButton(
-                    onPressed: (){
-                      viewModel.selectedFile(state.firstRowTitles);
-                    },
-                    child: Text(MMCConstants.selectFileTextButton),
-                  ),
-                  SizedBox(height: height*0.01,),
-                  if (state.table.isNotEmpty) Column(
+                      Row(
                         children: [
-                          TableResult(
-                            state: state,
-                            viewModel: viewModel,
-                          )
+                          const Icon(Icons.info),
+                          SizedBox(width: width*0.02,),
+                          Expanded(child: TitleText(text: MMCConstants.instructions, fontSize: 20, maxLines: 4,)),
                         ],
-                      ) else Container()
-                ],
+                      ),
+                      SizedBox(height: height*0.01,),
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: state.firstRowTitles,
+                            onChanged: (newValue){
+                              viewModel.changeFirstRowTitlesValue(newValue??true);
+                            }
+                          ),
+                          Text(MMCConstants.firstRowTitlesCheckLabel)
+                        ],
+                      ),
+                      SizedBox(height: height*0.01,),
+                      InputBasic(
+                        label: MMCConstants.projectedValueLabel,
+                        inputController: state.projectedValueController,
+                        validator: (value){
+                          return GlobalMetods.validatorIsDouble(value);
+                        },
+                      ),
+                      SizedBox(height: height*0.01,),
+                      FilledButton(
+                        onPressed: (){
+                          viewModel.selectedFileAndProcessMMC(
+                            state.firstRowTitles,
+                            state.projectedValueController
+                          );
+                        },
+                        child: Text(MMCConstants.selectFileAndProcessTextButton),
+                      ),
+                      SizedBox(height: height*0.01,),
+                      if (state.table.isNotEmpty) Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TableResult(
+                                state: state,
+                                viewModel: viewModel,
+                              ),
+                              SizedBox(height: height*0.01,),
+                              ResultData(state: state, viewModel: viewModel),
+                              SizedBox(height: height*0.04,),
+                              ScatterPlot(state: state)
+                            ],
+                          ) else Container(),
+                      SizedBox(height: height*0.02,),
+                    ],
+                  ),
+                ),
               ),
             )
           ],
@@ -121,6 +144,13 @@ class _MMCScreenState extends State<MMCScreen> implements EventObserver {
   void _handleSetDataResults(SetDataResults event) {
     setState(() {
       state.table=event.data;
+      state.b=event.b;
+      state.a=event.a;
+      state.c=event.c;
+      state.y=event.y;
+      state.equation=event.yEquation;
+      state.points=event.points;
+      state.pointsToLine=event.pointsToDrawRect;
     });
   }
 

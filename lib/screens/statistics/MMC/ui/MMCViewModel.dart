@@ -9,12 +9,20 @@ import 'package:fisicapf/mvvm/viewModel.dart';
 import 'package:fisicapf/screens/statistics/MMC/data/MMCConstants.dart';
 import 'package:fisicapf/screens/statistics/MMC/domain/MMCRepository.dart';
 import 'package:fisicapf/screens/statistics/MMC/ui/MMCEvent.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 
 class MMCViewModel extends EventViewModel {
   MMCRepository repository;
   MMCViewModel(this.repository);
 
-  void selectedFile(bool firstRowIsTitles) async {
+  void selectedFileAndProcessMMC(bool firstRowIsTitles, TextEditingController projectedValueController) async {
+
+    if(double.tryParse(projectedValueController.text)==null){
+      notify(ShowSimpleAlert(MMCConstants.invalidProjectValueMessage));
+      return;
+    }
+
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['xlsx'],
@@ -32,6 +40,8 @@ class MMCViewModel extends EventViewModel {
         double x2Sum=0;
         List<List<dynamic>> tableResultData=[];
         int initialIndexRow = 0;
+        double xMax = 0;
+        double xMin = 0;
 
         if(firstRowIsTitles){
           initialIndexRow=1;
@@ -41,6 +51,9 @@ class MMCViewModel extends EventViewModel {
           tableResultData[0].add("XY");
           tableResultData[0].add("X^2");
         }
+
+        //points to graph
+        List<LineChartBarData> points = [];
 
         for (var index=initialIndexRow; index<firstTable.rows.length;index++) {
           Data? xValue = firstTable.rows.elementAt(index).elementAt(0);
@@ -85,6 +98,23 @@ class MMCViewModel extends EventViewModel {
             ySum+=y;
             xySum+=xy;
             x2Sum+=x2;
+
+            points.add(
+              LineChartBarData(
+                barWidth: 1.5,
+                spots: [
+                  FlSpot(x,y)
+                ]
+              )
+            );
+
+            //validator max & min
+            if(xMax < x){
+              xMax = x;
+            }
+            if(x < xMin){
+              xMin = x;
+            }
           }
         }
         tableResultData.add([
@@ -93,7 +123,35 @@ class MMCViewModel extends EventViewModel {
           xySum,
           x2Sum
         ]);
-        notify(SetDataResults(tableResultData));
+
+        int n = tableResultData.length-1;
+        if(firstRowIsTitles){
+          n--;
+        }
+        double projectedValue=double.parse(projectedValueController.text);
+        double b = ((n*xySum) - (xSum*ySum))/((n*x2Sum) - pow(xSum,2));
+        double a = (ySum/n) - (b * (xSum/n));
+        double c = (b*n)/ySum;
+        String yEquation = "Y = ${a.toStringAsFixed(2)} + ${b.toStringAsFixed(2)}x";
+        double y= a+(b*projectedValue);
+
+        //calc points to draw rect
+        double y1 = a+(b*xMin);
+        double y2 = a+(b*xMax);
+
+        notify(SetDataResults(
+          tableResultData,
+          b: b,
+          a: a,
+          c: c,
+          y: y,
+          yEquation: yEquation,
+          points: points,
+          pointsToDrawRect: [
+            FlSpot(xMin, y1),
+            FlSpot(xMax, y2)
+          ]
+        ));
       }catch(e){
         notify(ShowSimpleAlert("${MMCConstants.readExcelError}. $e"));
       }
@@ -103,7 +161,6 @@ class MMCViewModel extends EventViewModel {
   void changeFirstRowTitlesValue(bool newValue){
     notify(ChangeFirstRowTitlesCheckBox(newValue));
   }
-
 
 
 }
