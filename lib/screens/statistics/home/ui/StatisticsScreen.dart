@@ -54,6 +54,11 @@ class _StatisticsScreenState extends State<StatisticsScreen>  implements EventOb
         description: StatisticsConstants.inferenceAboutSampleDescription,
         screenPath: GlobalConstants.inferenceAboutSampleScreen
     ),
+    MenuModel(
+        title: StatisticsConstants.mmcTitle,
+        description: StatisticsConstants.mmcDescription,
+        screenPath: GlobalConstants.mmcScreen
+    ),
   ];
 
   @override

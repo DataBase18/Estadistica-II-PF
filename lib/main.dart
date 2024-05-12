@@ -1,6 +1,7 @@
 import 'package:fisicapf/GlobalConstants.dart';
 import 'package:fisicapf/screens/physical/conversion/ui/ConversionScreen.dart';
 import 'package:fisicapf/screens/screens.dart';
+import 'package:fisicapf/screens/statistics/MMC/ui/MMCScreen.dart';
 import 'package:fisicapf/screens/statistics/inferenceAboutSample/ui/InferenceAboutSampleScreen.dart';
 import 'package:fisicapf/screens/statistics/intervalEstimation/ui/IntervalEstimationScreen.dart';
 import 'package:fisicapf/services/services.dart';
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
         GlobalConstants.aleatorySampleScreen: (_) => AleatorySampleScreen(),
         GlobalConstants.sizeSampleCalcScreen: (_) => SizeSampleCalcScreen(),
         GlobalConstants.intervalEstimationScreen: (_) => IntervalEstimationScreen(),
-        GlobalConstants.inferenceAboutSampleScreen: (_) => InferenceAboutSampleScreen()
+        GlobalConstants.inferenceAboutSampleScreen: (_) => InferenceAboutSampleScreen(),
+        GlobalConstants.mmcScreen: (_) => MMCScreen()
       },
       initialRoute: GlobalConstants.homeScreenPath,
     );

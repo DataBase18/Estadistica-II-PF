@@ -6,6 +6,8 @@ class GlobalConstants {
   static String sizeSampleCalcScreen = "sizeSampleCalcScreen";
   static String intervalEstimationScreen ="trustIntervalsScreen";
   static String inferenceAboutSampleScreen="inferenceAboutSampleScreen";
+  static String mmcScreen="mmcScreen";
+
 
   static String inputValidatorNumberError = "Ingrese un número";
   static String processTextButton  = "Procesar";

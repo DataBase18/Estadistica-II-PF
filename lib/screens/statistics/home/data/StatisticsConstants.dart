@@ -17,4 +17,7 @@ class StatisticsConstants {
 
   static String inferenceAboutSampleTitle="Inferencia sobre una muestra";
   static String inferenceAboutSampleDescription="Calcule la probablidad con base a datos en la campana de Gauss y muestre sus intervalos de aceptación de hipotesis";
+
+  static String mmcTitle="Método de minimos cuadrados MMC";
+  static String mmcDescription="Calcula la proyección de datos mediante la igualación de los momentos muestrales con los momentos teóricos de la distribución. ";
 }
