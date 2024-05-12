@@ -5,6 +5,7 @@ import 'package:fisicapf/screens/statistics/MMC/domain/MMCRepository.dart';
 import 'package:fisicapf/screens/statistics/MMC/ui/MMCEvent.dart';
 import 'package:fisicapf/screens/statistics/MMC/ui/MMCState.dart';
 import 'package:fisicapf/screens/statistics/MMC/ui/MMCViewModel.dart';
+import 'package:fisicapf/screens/statistics/MMC/ui/MMCWidgets.dart';
 import 'package:fisicapf/widgets/AlertBasic.dart';
 import 'package:fisicapf/widgets/TitleText.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +74,16 @@ class _MMCScreenState extends State<MMCScreen> implements EventObserver {
                       viewModel.selectedFile(state.firstRowTitles);
                     },
                     child: Text(MMCConstants.selectFileTextButton),
-                  )
+                  ),
+                  SizedBox(height: height*0.01,),
+                  if (state.table.isNotEmpty) Column(
+                        children: [
+                          TableResult(
+                            state: state,
+                            viewModel: viewModel,
+                          )
+                        ],
+                      ) else Container()
                 ],
               ),
             )
@@ -90,6 +100,8 @@ class _MMCScreenState extends State<MMCScreen> implements EventObserver {
         _handleShowSimpleAlert(event as ShowSimpleAlert);
       case ChangeFirstRowTitlesCheckBox:
         _handleChangeFirstRowTitlesCheckBox(event as ChangeFirstRowTitlesCheckBox);
+      case SetDataResults:
+        _handleSetDataResults(event as SetDataResults);
 
     }
   }
@@ -103,6 +115,12 @@ class _MMCScreenState extends State<MMCScreen> implements EventObserver {
   void _handleChangeFirstRowTitlesCheckBox(ChangeFirstRowTitlesCheckBox event) {
     setState(() {
       state.firstRowTitles=!state.firstRowTitles;
+    });
+  }
+
+  void _handleSetDataResults(SetDataResults event) {
+    setState(() {
+      state.table=event.data;
     });
   }
 

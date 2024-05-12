@@ -13,3 +13,8 @@ class ShowSimpleAlert extends ViewEvent {
   String message;
   ShowSimpleAlert(this.message):super("ShowSimpleAlert");
 }
+
+class SetDataResults extends ViewEvent {
+  List<List<dynamic>> data;
+  SetDataResults(this.data):super("SetDataResults");
+}

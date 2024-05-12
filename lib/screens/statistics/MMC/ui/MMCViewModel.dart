@@ -93,7 +93,7 @@ class MMCViewModel extends EventViewModel {
           xySum,
           x2Sum
         ]);
-
+        notify(SetDataResults(tableResultData));
       }catch(e){
         notify(ShowSimpleAlert("${MMCConstants.readExcelError}. $e"));
       }
