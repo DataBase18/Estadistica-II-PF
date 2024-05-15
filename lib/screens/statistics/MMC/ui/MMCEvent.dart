@@ -2,6 +2,7 @@
 
 import 'dart:typed_data';
 
+import 'package:excel/excel.dart';
 import 'package:fisicapf/mvvm/observer.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -33,4 +34,10 @@ class SetDataResults extends ViewEvent {
     required this.points,
     required this.pointsToDrawRect
   }):super("SetDataResults");
+}
+
+class SetExcel extends ViewEvent {
+  Excel excel;
+  String nameExcel;
+  SetExcel(this.excel, this.nameExcel):super("Excel");
 }

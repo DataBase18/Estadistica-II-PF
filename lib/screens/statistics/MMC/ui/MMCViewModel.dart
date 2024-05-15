@@ -16,21 +16,13 @@ class MMCViewModel extends EventViewModel {
   MMCRepository repository;
   MMCViewModel(this.repository);
 
-  void selectedFileAndProcessMMC(bool firstRowIsTitles, TextEditingController projectedValueController) async {
-
+  void processMMC(bool firstRowIsTitles, TextEditingController projectedValueController, Excel? excel) async {
     if(double.tryParse(projectedValueController.text)==null){
       notify(ShowSimpleAlert(MMCConstants.invalidProjectValueMessage));
       return;
     }
-
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['xlsx'],
-    );
-    if(result!=null){
+    if(excel!=null){
       try{
-        Uint8List bytes = File(result.files.first.path??"").readAsBytesSync();
-        Excel excel = Excel.decodeBytes(bytes);
         final firstTable = excel.tables.values.first;
 
         //utils variables
@@ -160,6 +152,19 @@ class MMCViewModel extends EventViewModel {
 
   void changeFirstRowTitlesValue(bool newValue){
     notify(ChangeFirstRowTitlesCheckBox(newValue));
+  }
+
+  void selectedFile() async {
+
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['xlsx'],
+    );
+    if(result != null){
+      Uint8List bytes = File(result.files.first.path??"").readAsBytesSync();
+      Excel excel = Excel.decodeBytes(bytes);
+      notify(SetExcel(excel, result.files.first.name));
+    }
   }
 
 

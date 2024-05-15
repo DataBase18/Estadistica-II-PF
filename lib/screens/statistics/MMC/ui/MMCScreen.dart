@@ -52,6 +52,7 @@ class _MMCScreenState extends State<MMCScreen> implements EventObserver {
                 child: Padding(
                   padding:  EdgeInsets.symmetric(horizontal: width*0.02),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
@@ -61,50 +62,63 @@ class _MMCScreenState extends State<MMCScreen> implements EventObserver {
                         ],
                       ),
                       SizedBox(height: height*0.01,),
-                      Row(
-                        children: [
-                          Checkbox(
-                            value: state.firstRowTitles,
-                            onChanged: (newValue){
-                              viewModel.changeFirstRowTitlesValue(newValue??true);
-                            }
-                          ),
-                          Text(MMCConstants.firstRowTitlesCheckLabel)
-                        ],
-                      ),
-                      SizedBox(height: height*0.01,),
-                      InputBasic(
-                        label: MMCConstants.projectedValueLabel,
-                        inputController: state.projectedValueController,
-                        validator: (value){
-                          return GlobalMetods.validatorIsDouble(value);
-                        },
-                      ),
-                      SizedBox(height: height*0.01,),
                       FilledButton(
                         onPressed: (){
-                          viewModel.selectedFileAndProcessMMC(
-                            state.firstRowTitles,
-                            state.projectedValueController
-                          );
+                          viewModel.selectedFile();
                         },
-                        child: Text(MMCConstants.selectFileAndProcessTextButton),
+                        child: Text(MMCConstants.selectedFileTextButton),
                       ),
-                      SizedBox(height: height*0.01,),
-                      if (state.table.isNotEmpty) Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                      state.excelSelected!= null?
+                          Column(
                             children: [
-                              TableResult(
-                                state: state,
-                                viewModel: viewModel,
+                              TitleText(text: "${MMCConstants.fileToProcess}: ${state.nameFile}", fontSize: 18,),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      value: state.firstRowTitles,
+                                      onChanged: (newValue){
+                                        viewModel.changeFirstRowTitlesValue(newValue??true);
+                                      }
+                                  ),
+                                  Text(MMCConstants.firstRowTitlesCheckLabel)
+                                ],
                               ),
                               SizedBox(height: height*0.01,),
-                              ResultData(state: state, viewModel: viewModel),
-                              SizedBox(height: height*0.04,),
-                              ScatterPlot(state: state)
+                              InputBasic(
+                                label: MMCConstants.projectedValueLabel,
+                                inputController: state.projectedValueController,
+                                validator: (value){
+                                  return GlobalMetods.validatorIsDouble(value);
+                                },
+                              ),
+                              SizedBox(height: height*0.01,),
+                              FilledButton(
+                                onPressed: (){
+                                  viewModel.processMMC(
+                                      state.firstRowTitles,
+                                      state.projectedValueController,
+                                      state.excelSelected
+                                  );
+                                },
+                                child: Text(MMCConstants.processMMCTextButton),
+                              ),
+                              SizedBox(height: height*0.01,),
+                              if (state.table.isNotEmpty) Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  TableResult(
+                                    state: state,
+                                    viewModel: viewModel,
+                                  ),
+                                  SizedBox(height: height*0.01,),
+                                  ResultData(state: state, viewModel: viewModel),
+                                  SizedBox(height: height*0.04,),
+                                  ScatterPlot(state: state)
+                                ],
+                              ) else Container(),
+                              SizedBox(height: height*0.02,),
                             ],
-                          ) else Container(),
-                      SizedBox(height: height*0.02,),
+                          ):Container()
                     ],
                   ),
                 ),
@@ -125,6 +139,8 @@ class _MMCScreenState extends State<MMCScreen> implements EventObserver {
         _handleChangeFirstRowTitlesCheckBox(event as ChangeFirstRowTitlesCheckBox);
       case SetDataResults:
         _handleSetDataResults(event as SetDataResults);
+      case SetExcel:
+        _handleSetExcel(event as SetExcel);
 
     }
   }
@@ -151,6 +167,13 @@ class _MMCScreenState extends State<MMCScreen> implements EventObserver {
       state.equation=event.yEquation;
       state.points=event.points;
       state.pointsToLine=event.pointsToDrawRect;
+    });
+  }
+
+  void _handleSetExcel(SetExcel event) {
+    setState(() {
+      state.excelSelected=event.excel;
+      state.nameFile=event.nameExcel;
     });
   }
 
