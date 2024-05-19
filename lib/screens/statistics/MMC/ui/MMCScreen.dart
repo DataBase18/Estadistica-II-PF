@@ -171,6 +171,7 @@ class _MMCScreenState extends State<MMCScreen> implements EventObserver {
       state.pointsToLine=event.pointsToDrawRect;
       state.r=event.r;
       state.typeCorrelation=event.typeCorrelation;
+      state.eS=event.eS;
     });
   }
 

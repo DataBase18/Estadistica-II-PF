@@ -23,7 +23,7 @@ class MMCConstants{
   static String bResultText="Valor de b: ";
   static String aResultText="Valor de a: ";
   static String cResultText="Valor de c: ";
-
+  static String eSResultText="Error Standar de Estimación: ";
   static String fileToProcess="Archivo a procesar";
   static String typeCorrelationText ="Tipo de correlación: ";
 }

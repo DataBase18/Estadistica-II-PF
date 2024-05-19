@@ -137,6 +137,7 @@ class MMCViewModel extends EventViewModel {
         double y= a+(b*projectedValue);
         double r = ( (n*xySum)-(xSum*ySum) )/ (sqrt(((n*x2Sum)-pow(xSum,2)) * ((n*y2Sum)-pow(ySum,2))));
         String typeCorrelation = GlobalMetods.getPercentageRelation(r);
+        double eS  = sqrt( (y2Sum - (a*ySum) - (b*xySum))/(n-2) );
 
         //calc points to draw rect
         double y1 = a+(b*xMin);
@@ -155,7 +156,8 @@ class MMCViewModel extends EventViewModel {
             FlSpot(xMax, y2)
           ],
           r:  r,
-          typeCorrelation: typeCorrelation
+          typeCorrelation: typeCorrelation,
+          eS: eS
         ));
       }catch(e){
         notify(ShowSimpleAlert("${MMCConstants.readExcelError}. $e"));

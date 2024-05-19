@@ -27,6 +27,7 @@ class SetDataResults extends ViewEvent {
   List<FlSpot> pointsToDrawRect;
   String typeCorrelation ;
   double r ;
+  double eS;
   SetDataResults(this.data, {
     required this.b,
     required this.a,
@@ -36,7 +37,8 @@ class SetDataResults extends ViewEvent {
     required this.points,
     required this.pointsToDrawRect,
     required this.r,
-    required this.typeCorrelation
+    required this.typeCorrelation,
+    required this.eS
   }):super("SetDataResults");
 }
 

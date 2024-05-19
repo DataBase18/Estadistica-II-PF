@@ -20,4 +20,5 @@ class MMCState {
   List<FlSpot> pointsToLine=[];
   String typeCorrelation = "";
   double r  =0;
+  double eS=0;
  }

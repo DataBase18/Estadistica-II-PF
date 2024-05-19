@@ -78,6 +78,14 @@ class ResultData extends StatelessWidget {
             Text(state.c.toStringAsFixed(4)),
           ],
         ),
+        Wrap(
+          children: [
+            Text(MMCConstants.eSResultText, style: const TextStyle(
+                fontWeight: FontWeight.bold
+            ),),
+            Text(state.eS.toStringAsFixed(4)),
+          ],
+        ),
         SizedBox(height: height*0.01,),
         Align(
           alignment: Alignment.center,
