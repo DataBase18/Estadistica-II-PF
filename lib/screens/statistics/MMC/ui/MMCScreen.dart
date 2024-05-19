@@ -112,8 +112,10 @@ class _MMCScreenState extends State<MMCScreen> implements EventObserver {
                                   ),
                                   SizedBox(height: height*0.01,),
                                   ResultData(state: state, viewModel: viewModel),
-                                  SizedBox(height: height*0.04,),
-                                  ScatterPlot(state: state)
+                                  SizedBox(height: height*0.01,),
+                                  TypeCorrelationGraph(state: state, viewModel: viewModel),
+                                  SizedBox(height: height*0.05,),
+                                  ScatterPlot(state: state),
                                 ],
                               ) else Container(),
                               SizedBox(height: height*0.02,),
@@ -167,6 +169,8 @@ class _MMCScreenState extends State<MMCScreen> implements EventObserver {
       state.equation=event.yEquation;
       state.points=event.points;
       state.pointsToLine=event.pointsToDrawRect;
+      state.r=event.r;
+      state.typeCorrelation=event.typeCorrelation;
     });
   }
 

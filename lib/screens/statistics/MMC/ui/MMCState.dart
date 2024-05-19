@@ -18,4 +18,6 @@ class MMCState {
   String equation = "";
   List<LineChartBarData> points = [];
   List<FlSpot> pointsToLine=[];
+  String typeCorrelation = "";
+  double r  =0;
  }

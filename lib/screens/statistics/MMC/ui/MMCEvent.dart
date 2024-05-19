@@ -25,6 +25,8 @@ class SetDataResults extends ViewEvent {
   String yEquation;
   List<LineChartBarData> points;
   List<FlSpot> pointsToDrawRect;
+  String typeCorrelation ;
+  double r ;
   SetDataResults(this.data, {
     required this.b,
     required this.a,
@@ -32,7 +34,9 @@ class SetDataResults extends ViewEvent {
     required this.y,
     required this.yEquation,
     required this.points,
-    required this.pointsToDrawRect
+    required this.pointsToDrawRect,
+    required this.r,
+    required this.typeCorrelation
   }):super("SetDataResults");
 }
 

@@ -5,6 +5,7 @@ import 'dart:typed_data';
 
 import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:fisicapf/GlobalMetods.dart';
 import 'package:fisicapf/mvvm/viewModel.dart';
 import 'package:fisicapf/screens/statistics/MMC/data/MMCConstants.dart';
 import 'package:fisicapf/screens/statistics/MMC/domain/MMCRepository.dart';
@@ -30,6 +31,7 @@ class MMCViewModel extends EventViewModel {
         double ySum=0;
         double xySum=0;
         double x2Sum=0;
+        double y2Sum=0;
         List<List<dynamic>> tableResultData=[];
         int initialIndexRow = 0;
         double xMax = 0;
@@ -42,6 +44,7 @@ class MMCViewModel extends EventViewModel {
           tableResultData[0].add(firstTable.rows.elementAt(0).elementAt(1)?.value??"");
           tableResultData[0].add("XY");
           tableResultData[0].add("X^2");
+          tableResultData[0].add("Y^2");
         }
 
         //points to graph
@@ -72,13 +75,15 @@ class MMCViewModel extends EventViewModel {
             double x = 0;
             double y = 0;
             double xy=0;
-            double x2;
+            double x2=0;
+            double y2=0;
             x = double.parse(xValue.value.toString()); 
             y=  double.parse(yValue.value.toString());
 
             //calculates
             xy = x*y;
             x2 = pow(x, 2).toDouble();
+            y2 = pow(y, 2).toDouble();
 
             //setter data
             tableResultData.add([]);
@@ -86,10 +91,12 @@ class MMCViewModel extends EventViewModel {
             tableResultData[index].add(y);
             tableResultData[index].add(xy);
             tableResultData[index].add(x2);
+            tableResultData[index].add(y2);
             xSum+=x;
             ySum+=y;
             xySum+=xy;
             x2Sum+=x2;
+            y2Sum+=y2;
 
             points.add(
               LineChartBarData(
@@ -113,19 +120,23 @@ class MMCViewModel extends EventViewModel {
           xSum,
           ySum,
           xySum,
-          x2Sum
+          x2Sum,
+          y2Sum,
         ]);
 
         int n = tableResultData.length-1;
         if(firstRowIsTitles){
           n--;
         }
+        //calculates
         double projectedValue=double.parse(projectedValueController.text);
         double b = ((n*xySum) - (xSum*ySum))/((n*x2Sum) - pow(xSum,2));
         double a = (ySum/n) - (b * (xSum/n));
         double c = (b*n)/ySum;
         String yEquation = "Y = ${a.toStringAsFixed(2)} + ${b.toStringAsFixed(2)}x";
         double y= a+(b*projectedValue);
+        double r = ( (n*xySum)-(xSum*ySum) )/ (sqrt(((n*x2Sum)-pow(xSum,2)) * ((n*y2Sum)-pow(ySum,2))));
+        String typeCorrelation = GlobalMetods.getPercentageRelation(r);
 
         //calc points to draw rect
         double y1 = a+(b*xMin);
@@ -142,7 +153,9 @@ class MMCViewModel extends EventViewModel {
           pointsToDrawRect: [
             FlSpot(xMin, y1),
             FlSpot(xMax, y2)
-          ]
+          ],
+          r:  r,
+          typeCorrelation: typeCorrelation
         ));
       }catch(e){
         notify(ShowSimpleAlert("${MMCConstants.readExcelError}. $e"));

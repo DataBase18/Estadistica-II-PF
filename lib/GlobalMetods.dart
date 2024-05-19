@@ -91,4 +91,26 @@ class GlobalMetods {
     double tnValue = tdStudentTable[indexRowSampleMinusOneFind][indexColAlphaValueFind];
     return tnValue;
   }
+
+  static String getPercentageRelation (double r){
+    if(r==-1){
+      return GlobalConstants.perfectNegativeCorrelation;
+    }else if(r==1){
+      return GlobalConstants.perfectPositiveCorrelation;
+    }else if(r >-1 && r<-0.75){
+      return GlobalConstants.intenseNegativeCorrelation;
+    }else if(r>=-0.075 && r<-0.25){
+      return GlobalConstants.mediumNegativeCorrelation;
+    }else if(r >= -0.25 && r < 0){
+      return GlobalConstants.weakNegativeCorrelation;
+    }else if (r == 0){
+      return GlobalConstants.zeroCorrelation;
+    }else if(r>0 && r <= 0.25){
+      return GlobalConstants.weakPositiveCorrelation;
+    }else if(r>0.25 && r <= 0.75){
+      return GlobalConstants.mediumPositiveCorrelation;
+    }else {
+      return GlobalConstants.intensePositiveCorrelation;
+    }
+  }
 }

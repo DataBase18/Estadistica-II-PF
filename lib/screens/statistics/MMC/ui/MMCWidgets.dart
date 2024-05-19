@@ -46,12 +46,55 @@ class ResultData extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("${MMCConstants.equationResultText} ${state.equation}"),
-        Text("${MMCConstants.bResultText} ${state.b}"),
-        Text("${MMCConstants.aResultText} ${state.a}"),
-        Text("${MMCConstants.cResultText} ${state.c}"),
+        Wrap(
+          children: [
+            Text(MMCConstants.equationResultText, style: const TextStyle(
+              fontWeight: FontWeight.bold
+            ),),
+            Text(state.equation),
+          ],
+        ),
+        Wrap(
+          children: [
+            Text(MMCConstants.bResultText, style: const TextStyle(
+              fontWeight: FontWeight.bold
+            ),),
+            Text(state.b.toStringAsFixed(4)),
+          ],
+        ),
+        Wrap(
+          children: [
+            Text(MMCConstants.aResultText, style: const TextStyle(
+                fontWeight: FontWeight.bold
+            ),),
+            Text(state.a.toStringAsFixed(4)),
+          ],
+        ),
+        Wrap(
+          children: [
+            Text(MMCConstants.cResultText, style: const TextStyle(
+                fontWeight: FontWeight.bold
+            ),),
+            Text(state.c.toStringAsFixed(4)),
+          ],
+        ),
         SizedBox(height: height*0.01,),
-        Text("${MMCConstants.yResultText} ${state.y}"),
+        Align(
+          alignment: Alignment.center,
+          child: Wrap(
+            children: [
+              Text(MMCConstants.yResultText, style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                fontSize: 20
+              ),),
+              Text(state.y.toStringAsFixed(4), style: const TextStyle(
+                fontSize: 20
+              ),),
+            ],
+          ),
+        ),
+        SizedBox(height: height*0.01,),
+
       ],
     );
   }
@@ -98,6 +141,70 @@ class ScatterPlot extends StatelessWidget {
           ]
         )
       )
+    );
+  }
+}
+
+
+class TypeCorrelationGraph extends StatelessWidget {
+  const TypeCorrelationGraph({super.key, required this.state, required this.viewModel});
+  final MMCState state;
+  final MMCViewModel viewModel;
+  @override
+  Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Wrap(
+          children: [
+            Text(MMCConstants.typeCorrelationText, style: const TextStyle(
+                fontWeight: FontWeight.bold
+            ),),
+            Text("${state.typeCorrelation} (${state.r.toStringAsFixed(2)})"),
+          ],
+        ),
+        SizedBox(height: height*0.04,),
+        SizedBox(
+            height: height*0.1,
+            width: width*0.9,
+            child: LineChart(
+              LineChartData(
+                borderData: FlBorderData(show: false),
+                titlesData: const FlTitlesData(
+                  topTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                          showTitles: false
+                      )
+                  ),
+                  rightTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                          showTitles: false
+                      )
+                  ),
+                ),
+                lineBarsData: [
+                  LineChartBarData(
+                      spots: [
+                        const FlSpot(-1,0),
+                        const FlSpot(1,0),
+                      ],
+                      barWidth: 1.5 ,
+                      color: Theme.of(context).colorScheme.primary
+                  ),
+                  LineChartBarData(
+                      spots: [
+                        FlSpot(state.r,0),
+                        FlSpot(state.r,1),
+                      ],
+                      barWidth: 1.5 ,
+                  ),
+                ]
+              )
+            )
+        )
+      ],
     );
   }
 }

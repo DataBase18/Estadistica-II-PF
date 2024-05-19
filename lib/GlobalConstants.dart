@@ -14,6 +14,15 @@ class GlobalConstants {
   static String addValueTextButton = "Agregar";
   static String invalidValueError ="Debes de ingresar un dato";
 
+  static String perfectNegativeCorrelation ="Correlación negativa perfecta";
+  static String perfectPositiveCorrelation ="Correlación positiva perfecta";
+  static String intenseNegativeCorrelation ="Correlación negativa intensa";
+  static String intensePositiveCorrelation ="Correlación positiva intensa";
+  static String mediumNegativeCorrelation ="Correlación negativa media";
+  static String mediumPositiveCorrelation ="Correlación positiva media";
+  static String weakNegativeCorrelation ="Correlación negativa debil";
+  static String weakPositiveCorrelation ="Correlación positiva debil";
+  static String zeroCorrelation ="Correlación cero";
 
   static List<List<double>> normalTable = [
     [-1, 0, 0.01,0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09],

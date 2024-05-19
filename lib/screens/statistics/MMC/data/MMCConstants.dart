@@ -25,4 +25,5 @@ class MMCConstants{
   static String cResultText="Valor de c: ";
 
   static String fileToProcess="Archivo a procesar";
+  static String typeCorrelationText ="Tipo de correlación: ";
 }
