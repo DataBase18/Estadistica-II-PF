@@ -37,7 +37,10 @@ class SQLLiteService {
         path,
         version: 1 ,
       );
-      final List<Map<String, dynamic>> rows = await db.query('statics_history');
+      final List<Map<String, dynamic>> rows = await db.query(
+        'statics_history',
+        orderBy: 'date DESC',
+      );
       List<HistoryModel> history = [];
       for(var row in rows){
         HistoryModel finalRow = HistoryModel.fromJson(row);
