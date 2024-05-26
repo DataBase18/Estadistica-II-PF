@@ -1,6 +1,6 @@
-# fisicapf
+# Estadistica II
 
-A new Flutter project.
+Este repositorio de GitHub tiene nuestro proyecto final de estadistica II para el semestre 1 del año 2024. Es una aplicación movil hecha en el framework de flutter con la intención de tomar temas como MMC, comprobacion de hipotesis, calculo de muestras, etc...
 
 ## Getting Started
 
