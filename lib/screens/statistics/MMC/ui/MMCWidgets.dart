@@ -28,6 +28,7 @@ class TableResult extends StatelessWidget {
             TableCell(child: Text(cells.elementAt(1).toString())),
             TableCell(child: Text(cells.elementAt(2).toString())),
             TableCell(child: Text(cells.elementAt(3).toString())),
+            TableCell(child: Text(cells.elementAt(4).toString())),
           ]
         );
       }).toList(),

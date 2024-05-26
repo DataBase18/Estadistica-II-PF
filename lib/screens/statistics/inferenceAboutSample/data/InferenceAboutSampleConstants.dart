@@ -41,4 +41,7 @@ class InferenceAboutSampleConstants {
 
   static String pLabel = "Valor de P";
   static String p0Label = "Valor de P0";
+
+  static String historyText = "Comprobación de hipotesis";
+
 }

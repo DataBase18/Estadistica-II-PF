@@ -3,13 +3,18 @@
 import 'dart:math';
 
 import 'package:fisicapf/GlobalMetods.dart';
+import 'package:fisicapf/models/HistoryModel.dart';
 import 'package:fisicapf/mvvm/viewModel.dart';
 import 'package:fisicapf/screens/statistics/inferenceAboutSample/data/InferenceAboutSampleConstants.dart';
+import 'package:fisicapf/screens/statistics/inferenceAboutSample/repository/InferenceAboutSampleRepository.dart';
 import 'package:fisicapf/screens/statistics/inferenceAboutSample/ui/InferenceAboutSampleEvent.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 
 class InferenceAboutSampleViewModel extends EventViewModel {
+
+  InferenceAboutSampleRepository repository;
+  InferenceAboutSampleViewModel(this.repository);
 
 
   void changeKnowAlphaSwitch(bool newValue){
@@ -210,6 +215,12 @@ class InferenceAboutSampleViewModel extends EventViewModel {
       graphLeftInterval(-5,-rejectZoneZValue );
       notify(SetLeftCriticValue( - rejectZoneZValue));
     }
+    HistoryModel history =  HistoryModel(
+      date: DateTime.now(),
+      typeDesc: InferenceAboutSampleConstants.historyText,
+      value: inference
+    );
+    repository.insertHistory(history).then((value) {return null;});
     notify(SetInferenceText(inference));
     notify(SetZValue(zToInference));
 

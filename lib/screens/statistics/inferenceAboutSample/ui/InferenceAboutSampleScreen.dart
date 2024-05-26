@@ -4,6 +4,7 @@ import 'package:fisicapf/GlobalConstants.dart';
 import 'package:fisicapf/GlobalMetods.dart';
 import 'package:fisicapf/mvvm/observer.dart';
 import 'package:fisicapf/screens/statistics/inferenceAboutSample/data/InferenceAboutSampleConstants.dart';
+import 'package:fisicapf/screens/statistics/inferenceAboutSample/repository/InferenceAboutSampleRepository.dart';
 import 'package:fisicapf/screens/statistics/inferenceAboutSample/ui/InferenceAboutSampleEvent.dart';
 import 'package:fisicapf/screens/statistics/inferenceAboutSample/ui/InferenceAboutSampleState.dart';
 import 'package:fisicapf/screens/statistics/inferenceAboutSample/ui/InferenceAboutSampleViewModel.dart';
@@ -25,7 +26,7 @@ class InferenceAboutSampleScreen extends StatefulWidget {
 class _InferenceAboutSampleScreenState extends State<InferenceAboutSampleScreen> implements EventObserver {
 
   final InferenceAboutSampleState state = InferenceAboutSampleState();
-  final InferenceAboutSampleViewModel viewModel = InferenceAboutSampleViewModel();
+  final InferenceAboutSampleViewModel viewModel = InferenceAboutSampleViewModel(InferenceAboutSampleRepository());
 
   @override
   void initState(){
