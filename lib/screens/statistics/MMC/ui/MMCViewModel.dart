@@ -6,6 +6,8 @@ import 'dart:typed_data';
 import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:fisicapf/GlobalMetods.dart';
+import 'package:fisicapf/models/ErrorModel.dart';
+import 'package:fisicapf/models/HistoryModel.dart';
 import 'package:fisicapf/mvvm/viewModel.dart';
 import 'package:fisicapf/screens/statistics/MMC/data/MMCConstants.dart';
 import 'package:fisicapf/screens/statistics/MMC/domain/MMCRepository.dart';
@@ -143,6 +145,17 @@ class MMCViewModel extends EventViewModel {
         double y1 = a+(b*xMin);
         double y2 = a+(b*xMax);
 
+        /*Insert history*/
+        HistoryModel history =  HistoryModel(
+          date: DateTime.now(),
+          typeDesc: MMCConstants.historyType,
+          value: "Se proyecto $y para el valor $projectedValue. Se encontro la ecuación $yEquation"
+        );
+        repository.insertHistory(history).then((value) {
+          if(value is ErrorModel){
+            notify(ShowSimpleAlert("No se pudo insertar el historial"));
+          }
+        });
         notify(SetDataResults(
           tableResultData,
           b: b,

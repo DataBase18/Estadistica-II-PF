@@ -26,4 +26,5 @@ class MMCConstants{
   static String eSResultText="Error Standar de Estimación: ";
   static String fileToProcess="Archivo a procesar";
   static String typeCorrelationText ="Tipo de correlación: ";
+  static String historyType ="Proyección de datos - MMC";
 }
