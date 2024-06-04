@@ -95,9 +95,11 @@ class _HistoryScreenState extends State<HistoryScreen>
                         )
                       ],
                     )
-                  : NoDataList(
-                      text: HistoryConstants.noDataText,
-                    )),
+                  : SingleChildScrollView(
+            child:  NoDataList(
+              text: HistoryConstants.noDataText,
+            ),
+          )),
     );
   }
 

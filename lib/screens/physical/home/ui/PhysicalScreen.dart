@@ -1,7 +1,5 @@
 
 
-import 'dart:ffi';
-
 import 'package:fisicapf/screens/physical/home/data/PhysicalConstants.dart';
 import 'package:fisicapf/widgets/widgets.dart';
 import 'package:flutter/material.dart';

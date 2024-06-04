@@ -108,7 +108,7 @@ class InferenceAboutSampleViewModel extends EventViewModel {
     }else if(double.tryParse(controllerP0.text) == null && typeCalc ==3){
       notify(ShowSimpleAlert(InferenceAboutSampleConstants.noValidP0ValueMessage));
       return;
-    }else if(double.tryParse(meanController.text) == null && typeCalc==1||typeCalc==2 ){
+    }else if(double.tryParse(meanController.text) == null && (typeCalc==1||typeCalc==2) ){
       notify(ShowSimpleAlert(InferenceAboutSampleConstants.noValidMeanValueMessage));
       return;
     }

@@ -88,7 +88,7 @@ class _MMCScreenState extends State<MMCScreen> implements EventObserver {
                                 label: MMCConstants.projectedValueLabel,
                                 inputController: state.projectedValueController,
                                 validator: (value){
-                                  return GlobalMetods.validatorIsDouble(value);
+                                  return Globa2lMetods.validatorIsDouble(value);
                                 },
                               ),
                               SizedBox(height: height*0.01,),
