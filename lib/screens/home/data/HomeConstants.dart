@@ -18,12 +18,12 @@ class HomeConstants {
         screenContent: StatisticsScreen(),
         description: ""
     ),
-    MenuModel(
-        title: HomeConstants.physicsMenuItem,
-        icon: Icons.accessibility_new_outlined,
-        screenContent: PhysicalScreen(),
-        description: ""
-    ),
+    // MenuModel(
+    //     title: HomeConstants.physicsMenuItem,
+    //     icon: Icons.accessibility_new_outlined,
+    //     screenContent: PhysicalScreen(),
+    //     description: ""
+    // ),
     MenuModel(
         title: HomeConstants.historyMenuItem,
         icon: Icons.history,
