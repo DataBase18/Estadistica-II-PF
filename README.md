@@ -1,4 +1,4 @@
-# Estadistica II
+# 📊 Estadistica II
 
 Este repositorio de GitHub tiene nuestro proyecto final de estadistica II para el semestre 1 del año 2024. Es una aplicación movil hecha en el framework de flutter con la intención de tomar temas como MMC, comprobacion de hipotesis, calculo de muestras, etc...
 
@@ -8,8 +8,24 @@ En caso de que los plugins no esten disponibles, puede poner un condicional en e
 
 Esperamos que poder ayudarte. Saludos futuros ingenieros!
 
-## Inicio
+## 🚀 Características
 
+- 📈 Estimaciones estadísticas Cálculo de medias, varianzas, desviaciones estándar y otros parámetros clave.
+- 🧪 Pruebas de hipótesis Comparación de muestras, verificación de hipótesis nula y alternativa, con resultados interpretables.
+- 📊 Análisis de probabilidad Visualización de distribuciones como la campana de Gauss (normal), incluyendo áreas bajo la curva.
+- 📐 Sesgo e intervalos gráficos Representación visual de sesgos, intervalos de confianza y dispersión de datos.
+- 📚 Otros temas cubiertos
+- Cálculo de percentiles y cuartiles
+- Bitacora de cambios y registro historico de operaciones en base de datos local
+
+## 🛠️ Tecnologías utilizadas
+
+- Flutter — Framework para desarrollo multiplataforma.
+- Dart — Lenguaje de programación.
+- [Charts_flutter](https://pub.dev/packages/flutter_charts) — Para visualización de datos.
+- [Sql Lite](https://pub.dev/packages/sqflite) - Para almacenar localmente el historico
+
+## Instrucciones
 - Clona el repositorio
 - Descarga dependencias
 - Ejecuta
